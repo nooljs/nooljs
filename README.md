@@ -19,7 +19,7 @@ Support multiple  data connections ms-sql, mysql, json file, ....
 
 ### Template
 
-```
+```xml
 <nl-template id="store-edit-template" nl-permission="store-edit" nl-parent="main-content" >
 <button class="button button-block button-positive"  id="item-edit-back"
 	  nl-click-redirect="{'url':'store-template'}" >    Back
