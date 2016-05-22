@@ -1,0 +1,9 @@
+ {"userid" : "UserId",
+  "sessionTimeoutMinutes":60,
+  "logout":"login",
+ "defaultConnection": "sqlConn",
+	"permission": {
+	 "connection":"jsonFile",
+	 "query" : "config/permision.json",
+	 "errorMessage": " You do not have permission to view this session."
+	} }

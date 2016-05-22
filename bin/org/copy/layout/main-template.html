@@ -1,0 +1,15 @@
+<nl-template id="main-template" nl-permission="main" nl-parent="top-content">
+<ion-pane>
+	<div class="bar bar-header">
+		<h1 class="title">{{account.AccountName}}</h1>
+		<button class="button button-clear button-positive">{{user.Username}}</button>
+		<button class="button button-clear button-positive" nl-server-logout="">logout</button>
+	</div>
+  	<ion-content class="has-header has-footer" id="main-content" nl-default-template="store-template">
+	</ion-content>
+	<div class="bar bar-footer bar-royal">
+		<button class="button button-clear" nl-click-redirect="{'url':'store-template', 'params':{'UserId':'UserId'}}">Stores</button>
+		<button class="button button-clear"  nl-click-redirect="{'url':'category-template', 'params':{'AccountKey':'account.AccountKey'}}">Items</button>
+	</div>
+</ion-pane>
+</nl-template>

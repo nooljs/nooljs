@@ -1,0 +1,61 @@
+<nl-template id="item-template" permission = "item" nl-parent="main-content">
+       <h1 >{{CategoryName}}</h1>
+	  <button class="button button-clear">Add Item</button>
+      <ion-list nl-server-data="getItem" nl-client-data="preClientData"  nl-client-post-data="postClientData"  > 
+	  <!-- <div class="item" ng-repeat="x	in categories"> -->
+        <ion-item  ng-repeat="x	in items" nl-click-redirect="{'url':'item-edit-template', 'params':{'AccountKey':'account.AccountKey', 'ItemId': 'x.ItemId', 'ItemName': 'x.ItemName', 
+		'CategoryId':'CategoryId',  'CategoryName':'CategoryName' }}">
+         {{x.ItemName}}	  
+        </ion-item>
+		</ion-list>
+</nl-template>
+<nl-server-script>
+{
+	getItem :
+	{
+	    model:"items",
+		server:function($scope)
+		{
+		console.log("executing pre server  function: accountKey :%s" ,$scope.AccountKey);
+			if(!$scope.AccountKey) {
+				console.log("AccountKey is empty.");
+				$scope.error = {message:"account key is empty",
+						type:"preServerData"
+					};
+				return false;
+		
+			}
+			return true;
+		},
+		db:
+		{ query: "exec Admin_GetItemsV2 {{AccountKey}}, {{CategoryId}}"
+		},
+		post:function($scope)
+		{
+		console.log("executing post client data function");
+		
+		  if(!$scope.items) {
+			console.log("Item is empty.");
+			$scope.error = {message:"item  is empty",
+							type:"postServerData"
+						};
+			  return  false;
+			
+		   }
+		   return true;
+		}
+	}
+}
+</nl-server-script>
+<nl-client-script>
+{
+  preClientData:function($scope)
+  {
+	console.log("executing pre client data function");
+  },
+  postClientData:function($scope)
+  {
+	console.log("executing post client data function");
+  }
+}
+</nl-client-script>

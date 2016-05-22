@@ -1,0 +1,23 @@
+<nl-template id="store-template" nl-permission="store"  nl-parent="main-content">
+       <h1 >Stores</h1>
+	  <button class="button button-clear">Add Store</button>
+      <ion-list nl-db-data="exec Nodejs_GetUserAccountWithStore {{user.UserId}}" nl-db-model="accounts" nl-client-post-data="assignDefaultAccount">
+        <ion-item ng-repeat="x	in accounts" menu-close >
+         <span nl-click-redirect="{'url':'store-edit-template' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" > {{x.StoreName}}  </span>
+		   <button class="button button-clear"  nl-click-redirect="{'url':'store-times' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" >Store time</button>
+        </ion-item>
+		</ion-list>
+</nl-template>
+<nl-client-script>
+{
+  assignDefaultAccount:function ($scope)
+  {
+  console.log(" enter assignDefaultAccount  function ");
+     if($scope.accounts && $scope.accounts.length > 0)
+	 {
+	  console.log(" enter assignDefaultAccount  function  assigen Account "+  $scope.accounts[0]);
+		$scope.$root.account = $scope.accounts[0];
+	 }
+  }
+  }
+</nl-client-script>

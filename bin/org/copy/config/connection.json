@@ -1,0 +1,35 @@
+[
+ {  "name":"sqlConn",
+     "type":"sqlserver",
+     "config":{"server": "localhost",
+		        "user": "admin",
+		        "password": "test123",
+		        "database": "storedb"
+          }
+   },
+  {
+    "name": "jsonFile",
+    "type": "jsonFile",
+    "config": ""
+  },
+  {
+    "name": "mysqlConnection",
+    "type": "mysql",
+    "config": {
+      "connectionLimit": 10,
+      "host": "localhost",
+      "password": "test123",
+      "user": "root"
+    }
+  },
+  {
+    "name": "postgresqlConnection",
+    "type": "postgresql",
+    "config": "postgres://postgres:chandran1@localhost/postgres"
+  },
+  {
+    "name": "mongodbConnection",
+    "type": "mongodb",
+     "config": "mongodb://localhost:27017/test"
+ }
+]

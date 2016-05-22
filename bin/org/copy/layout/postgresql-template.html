@@ -1,0 +1,22 @@
+﻿<nl-template id="postgresql-template"  nl-parent="postgresql-content">
+    <h1>postgre sql data</h1>
+    <ion-list nl-server-data="getData" >
+        <!-- <div class="item" ng-repeat="x	in categories"> -->
+        <ion-item class="item" ng-repeat="x	in models">
+           {{x.id}} - {{x.name}}
+      </ion-item>
+    </ion-list>
+</nl-template>
+<nl-server-script>
+    {
+        getData:
+        {
+            model:"models",
+            db:
+            {
+                query:"select name, active, id from tblname where active  =$1;[0]",
+                connection:"postgresqlConnection"
+            }
+        }
+    }
+</nl-server-script>

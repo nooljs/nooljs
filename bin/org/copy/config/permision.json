@@ -1,0 +1,14 @@
+
+  [ {"userKey":"RoleName",
+	"userValue" :"Admin",
+	"permission" :"*"
+	},
+   { "userKey": "RoleName",
+    "userValue" :"StoreUser",
+	"permission" :["main","category", "store"]
+   },
+    { "userKey": "RoleName",
+    "userValue" :"StoreManager",
+	"permission" :["main", "category","store", "category-edit"]
+   }
+   ]

@@ -1,0 +1,22 @@
+﻿<nl-template id="postgresql-template"  nl-parent="mongodb-content">
+    <h1>mondodb sql data</h1>
+    <ion-list nl-server-data="getData" >
+        <!-- <div class="item" ng-repeat="x	in categories"> -->
+        <ion-item class="item" ng-repeat="x	in models">
+           {{x.id}} - {{x.name}}
+      </ion-item>
+    </ion-list>
+</nl-template>
+<nl-server-script>
+    {
+        getData:
+        {
+            model:"models",
+            db:
+            {
+                query:"cols=test;fun=find;params={\"active\":1}",
+                connection:"mongodbConnection"
+            }
+        }
+    }
+</nl-server-script>

@@ -1,0 +1,22 @@
+﻿<nl-template id="mysql-template"  nl-parent="mysql-content">
+    <h1>my sql data</h1>
+    <ion-list nl-server-data="getData" >
+        <!-- <div class="item" ng-repeat="x	in categories"> -->
+        <ion-item class="item" ng-repeat="x	in models">
+           {{x.rowidx}} - {{x.name}} - {{x.description}}
+      </ion-item>
+    </ion-list>
+</nl-template>
+<nl-server-script>
+    {
+        getData:
+        {
+            model:"models",
+            db:
+            {
+                query:"select rowidx, name, description, isactive  from demo.test where isactive  =?;[0]",
+                connection:"mysqlConnection"
+            }
+        }
+    }
+</nl-server-script>

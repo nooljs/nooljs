@@ -1,0 +1,45 @@
+<nl-template  id="login-template"   nl-parent="top-content">
+	<div class="list">	
+   <label class="item item-input">
+    <span class="input-label">UserName</span>
+    <input type="text" ng-model="login.username" />
+  </label>
+  <label>
+	 <label class="item item-input">
+    <span class="input-label">Password</span>
+    <input type="password" ng-model="login.password" />
+  </label>
+ 
+  <button class="button button-block button-positive" nl-server-login="validateLogin"
+  nl-redirect="{'url':'main-template'}"  id="login-submit">
+  Login
+</button>
+ <div ng-if="_error">{{_error}}</div>
+   <div ng-messages="login-submit.$error">
+	  <div ng-message="db-error">Invalid user name/password</div>
+	  <div ng-message="network-error">Server is not available. please try again.</div>
+	</div>
+</div>
+</nl-template>
+<nl-server-script>
+{
+  validateLogin:
+  {
+	server:function($scope)
+	{
+		if(!$scope || !$scope.login || !$scope.login.username || !$scope.login.password )
+		{
+		     $scope.$root._error = {code:"INVALID_USER", message:"Invalid user information."};
+			 return false;
+		}
+		return true;
+		  
+	},
+    db:
+	{
+		query:"procedure=usp_LoginUser;userName=VarChar(255):{{login.username}},password=VarChar(255):{{login.password}} ,applicationName=VarChar:'StoreAdmin',clientIp=VarChar:'',userAgentString=VarChar:'' ",
+		resultType:"single"
+	}
+  }
+}
+</nl-server-script>
