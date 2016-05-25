@@ -1,6 +1,5 @@
-# nooljs
+# nooljs  ( Beta)
 
-# Welcome to the nooljs wiki!
 
 ## Introduction
 
@@ -33,16 +32,17 @@ Full stack JavaScript framework  built using  the famous open sources libraries.
    `node app.js`
 
 ## API Document
- 
+ For the full document  please visit http://nooljs.github.io/nooljs/
+
 ### Folder Structure
     * config -- Configuration folder
-*     layout - Contains all the layout files
-*     public -- Public files ( js, image)
-*     server -- All the server side JavaScript files 
-*     servermethod -- Put all the server methods here 
+    * layout - Contains all the layout files
+    * public -- Public files ( js, image)
+    * server -- All the server side JavaScript files 
+    * servermethod -- Put all the server methods here 
 
 ### Layout
-    The Layout is heart of the nooljs project.  Each page/module of the application can be defined as layout.
+The Layout is heart of the nooljs project.  Each page/module of the application can be defined as layout.
     It should be keep inside the layout folder.
 
 ```
@@ -55,14 +55,15 @@ Full stack JavaScript framework  built using  the famous open sources libraries.
 ```
 
  The layout file contains three parts : 
-*    nl-template - Html template for the module
-*    nl-server-script -  Sever side javascript code for this module
-*   nl-client-script - Client side javascript code for this module
+   * nl-template - Html template for the module
+   * nl-server-script -  Sever side javascript code for this module
+   * nl-client-script - Client side javascript code for this module
 
 
 ### nl-template
-    nl-template contains all the html for the given module.
-    It can be easily injected into html page or layout file.
+nl-template contains all the html for the given module. It can be easily injected into html page or layout file.
+
+The sample layout is  shown below:
 
   
 ```
