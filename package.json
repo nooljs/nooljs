@@ -1,6 +1,6 @@
 {
   "name": "nooljs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Full stack JavaScript framework created top of Nodejs, express, and Socket-io, and Anjularjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -43,7 +43,7 @@
   },
   "preferGlobal": true,
   "bin": {
-    "nooljs": "bin/nooljsCmd.js"
+    "nooljs": "./bin/nooljsCmd.js"
   },
   "devDependencies": {}
 }

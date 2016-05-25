@@ -1,6 +1,3 @@
-// nooljsCmd.js 0.0.1
-// Copyright (c) 2016  Chandru Krishnar <chandru0507@gmail.com>
-// MIT
 #! /usr/bin/env node
 var fs = require('fs');
 var fse = require('fs-extra');
