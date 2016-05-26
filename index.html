@@ -35,10 +35,11 @@
 </ul>
 
 </p>
-
+<h3>
 <a id="Quick Start" class="anchor" href="#Quick Start" aria-hidden="true">
-  <span aria-hidden="true" class="octicon octicon-link"></span></a>Quick Start</h3>
-  
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Quick Start
+   </h3>
+   
 <ol>
   <li> Install nooljs with npm
   <p>
@@ -61,10 +62,50 @@
    <pre>npm  update </pre> </li>
   <li> Run the application
 
-   <pre>node app.js`</pre> </li>
+   <pre>node app.js</pre> </li>
 </ol>
+ <h3>
+ <a id="Documentation" class="anchor" href="#Documentation" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation
+   </h3>
+   
+   <h4>
+ <a id="Folder Structure" class="anchor" href="#Folder Structure" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Folder Structure
+   </h4>
+   
+   <ul>
+     <li>config -- Configuration folder </li>
+     <li> layout - Contains all the layout files </li>
+     <li> public -- Public files ( js, image) </li>
+     <li> server -- All the server side JavaScript files </li>
+     <li> servermethod -- Put all the server methods here  </li>
+   </ul>
+   
+      <h4>
+ <a id="Layout" class="anchor" href="#Layout" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Layout
+   </h4>
+<p>
+The Layout is heart of the nooljs project.  Each page/module of the application can be defined as layout.
+    It should be keep inside the layout folder.
+</p>
+ <pre>
+    <nl-template id="store-edit-template" nl-permission="store-edit" nl-parent="main-content" >
+    </nl-template>
+    <nl-server-script>
+    </nl-server-script>
+   <nl-client-script>
+ </pre>
+ <p>
+    The layout file contains three parts : 
+    <ul> 
+    <li>nl-template - Html template for the module</li>
+    <li> nl-server-script -  Sever side javascript code for this module</li>
+    <li>nl-client-script - Client side javascript code for this module</li>
+    </ul>
+ </p>
 
- 
 <!--
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
