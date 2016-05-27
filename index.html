@@ -119,13 +119,58 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
     &lt;/nl-template&gt;
      </pre>
      
+       <h4>
+ <a id="Getting data from database" class="anchor" href="#Getting data from database" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Getting data from database
+   </h4>
+     
     <p>
-      <ul>
-        <li>id - id for this template/layout</li>
-         <li> nl-permission - permission name for this template. If nl-permission is empty then any one can access this template. Please visit <a herf="#nl-permission">nl-permission</a> section  for more detail abut user permissions/ security.
-        </li>
-          <li>nl-parent - id of the parent  tag where you want to inject this page.</li>
-      </ul>
+      Getting the data from database/server and injecting into html template  can be easily done without writting code or with minimum code. Nooljs will do all the magic of executing database query , passing the paramter between client and server, getting the result from server, and binding to the html template.
+      It  is designed to support any type of database or file system. 
+      </p>
+      
+        <pre>
+           &lt;ion-list nl-db-data="exec Nodejs_GetUserAccountWithStore {{user.UserId}}"  nl-db-model="accounts" nl-client-post-data="assignDefaultAccount"   nl-websocket ="false" &gt;
+        &lt;ion-item ng-repeat="x	in accounts" menu-close &gt;
+         &lt;span nl-click-redirect="{'url':'store-edit-template' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt; {{x.StoreName}}  
+         &lt;/span&gt;
+		   &lt;button class="button button-clear"  nl-click-redirect="{'url':'store-times' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt;Store time
+		   &lt;/button&gt;
+        &lt;ion-item&gt;
+		    &lt;/ion-list&gt;
+        </pre>
+    <p>
+       <ul>
+         <li>
+           nl-db-data  :  This contains the executing data query.  The paramters are getting from anjularjs tag or scope. The connection for the database is defined  in the defult connection at the config section.
+         </li>
+         <li>
+           nl-db-model  : The result of the exucting query will be stored into this anjularjs model. The data can access in the client sside using ajularjs scope. 
+         </li>
+         <li> 
+          nl-client-post-data : The name of the client side of function which will  be executed after result recevied in the client. This is optional attribute.
+          <pre>
+            <code>
+              &lt;nl-client-script&gt;
+                {
+                  assignDefaultAccount:function ($scope)
+                  {
+                  console.log(" enter assignDefaultAccount  function ");
+                     if($scope.accounts && $scope.accounts.length > 0)
+                	 {
+                	  console.log(" enter assignDefaultAccount  function  assigen Account "+  $scope.accounts[0]);
+                		$scope.$root.account = $scope.accounts[0];
+                	 }
+                  }
+                  }
+              &lt;/nl-client-script&gt;
+            </code>
+          </pre>
+         </li>
+         <li> 
+           nl-websocket  :  This attribute is used to enable or disable websocket for this query. This is optional attribute.  
+           </li>
+       </ul>
     </p>
     
     
