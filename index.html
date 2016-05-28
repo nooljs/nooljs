@@ -121,7 +121,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
      
        <h4>
  <a id="Getting data from database" class="anchor" href="#Getting data from database" aria-hidden="true">
-  <span aria-hidden="true" class="octicon octicon-link"></span></a>nl-db-data  Getting data from database
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>nl-db-data :- Getting data from database
    </h4>
      
     <p>
@@ -176,7 +176,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
     
       <h4>
  <a id="Getting data from server" class="anchor" href="#Getting data from server" aria-hidden="true">
-  <span aria-hidden="true" class="octicon octicon-link"></span></a>nl-server-data  Getting data from server
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>nl-server-data :- Getting data from server
    </h4>
      
     <p>
@@ -184,7 +184,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
       </p>
       
               <pre>
-           &lt;ion-list nl-db-data="validateLogin {{user.UserId}}"  nl-db-model="accounts" nl-client-post-data="assignDefaultAccount"   nl-websocket ="false" &gt;
+           &lt;ion-list nl-db-data="validateLogin"  nl-db-model="accounts" nl-client-post-data="assignDefaultAccount"   nl-websocket ="false" &gt;
         &lt;ion-item ng-repeat="x	in accounts" menu-close &gt;
          &lt;span nl-click-redirect="{'url':'store-edit-template' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt; {{x.StoreName}}  
          &lt;/span&gt;
@@ -196,7 +196,8 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
     <p>
        <ul>
          <li>
-           nl-server-data  :  This contains the executing data query.  The paramters are getting from anjularjs tag or scope. The connection for the database is defined  in the defult connection at the config section.
+           nl-server-data  :  This contains name of the serverside function and it should be  inside the "nl-server-script" tage.
+           
          </li>
          <li>
            nl-db-model  : The result of the exucting query will be stored into this anjularjs model. The data can access in the client sside using ajularjs scope. 
@@ -208,7 +209,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
       
       <pre>
       	<code>
-      		<nl-server-script>
+      		&lt;nl-server-script&gt;
 {
   validateLogin:
   {
@@ -218,7 +219,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
 	 // $scope contains all the input values and add return values in to the scope  variable
 	   // place server  side code here
 	   // return  true if you want to execute db and post functions 
-	   //return false  if you skip execution of  rest of functions
+	   //return false  if you want to skip execution of  rest of functions
 		return true;
 		  
 	},
@@ -235,9 +236,10 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
 	},
   }
 }
-</nl-server-script>
+&lt;/nl-server-script&gt;
       	</code>
       </pre>
+      <p> Execution flow : server() --> db() --> post() -->nl-client-post-data ( client side) </p>
       
 <!--
 <h3>
