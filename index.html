@@ -121,7 +121,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
      
        <h4>
  <a id="Getting data from database" class="anchor" href="#Getting data from database" aria-hidden="true">
-  <span aria-hidden="true" class="octicon octicon-link"></span></a>Getting data from database
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>nl-db-data  Getting data from database
    </h4>
      
     <p>
@@ -149,6 +149,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
          </li>
          <li> 
           nl-client-post-data : The name of the client side of function which will  be executed after result recevied in the client. This is optional attribute.
+         
           <pre>
             <code>
               &lt;nl-client-script&gt;
@@ -173,7 +174,71 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
        </ul>
     </p>
     
-    
+      <h4>
+ <a id="Getting data from server" class="anchor" href="#Getting data from server" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>nl-server-data  Getting data from server
+   </h4>
+     
+    <p>
+      nl-server-data  is simar to the nl-db-data, but it is advanced  and flexable method to injecting the servewr side data  into html template.  
+      </p>
+      
+              <pre>
+           &lt;ion-list nl-db-data="validateLogin {{user.UserId}}"  nl-db-model="accounts" nl-client-post-data="assignDefaultAccount"   nl-websocket ="false" &gt;
+        &lt;ion-item ng-repeat="x	in accounts" menu-close &gt;
+         &lt;span nl-click-redirect="{'url':'store-edit-template' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt; {{x.StoreName}}  
+         &lt;/span&gt;
+		   &lt;button class="button button-clear"  nl-click-redirect="{'url':'store-times' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt;Store time
+		   &lt;/button&gt;
+        &lt;ion-item&gt;
+		    &lt;/ion-list&gt;
+        </pre>
+    <p>
+       <ul>
+         <li>
+           nl-server-data  :  This contains the executing data query.  The paramters are getting from anjularjs tag or scope. The connection for the database is defined  in the defult connection at the config section.
+         </li>
+         <li>
+           nl-db-model  : The result of the exucting query will be stored into this anjularjs model. The data can access in the client sside using ajularjs scope. 
+         </li>
+         <li> 
+          nl-client-post-data : The name of the client side of function which will  be executed after result recevied in the client. This is optional attribute.
+         </li>
+         </ul>
+      
+      <pre>
+      	<code>
+      		<nl-server-script>
+{
+  validateLogin:
+  {
+       model:"item",
+	server:function($scope)
+	{
+	 // $scope contains all the input values and add return values in to the scope  variable
+	   // place server  side code here
+	   // return  true if you want to execute db and post functions 
+	   //return false  if you skip execution of  rest of functions
+		return true;
+		  
+	},
+        db:
+	{
+		query:"procedure=usp_LoginUser;userName=VarChar(255):{{login.username}},password=VarChar(255):{{login.password}} ,applicationName=VarChar:'StoreAdmin',clientIp=VarChar:'',userAgentString=VarChar:'' ",
+		resultType:"single"
+	}
+	post:function($scope)
+	{
+	   // place  post server  side code here 
+	   // $scope contains all the result from "server" and db functions.
+	   // you can modify "server" and "db" results here.
+	},
+  }
+}
+</nl-server-script>
+      	</code>
+      </pre>
+      
 <!--
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
