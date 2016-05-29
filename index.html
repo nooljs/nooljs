@@ -121,7 +121,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
      
        <h4>
  <a id="Getting data from database" class="anchor" href="#Getting data from database" aria-hidden="true">
-  <span aria-hidden="true" class="octicon octicon-link"></span></a>nl-db-data :- Getting data from database
+  <span aria-hidden="true" class="octicon octicon-link"></span></a> Getting data from database ( nl-db-data )
    </h4>
      
     <p>
@@ -176,7 +176,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
     
       <h4>
  <a id="Getting data from server" class="anchor" href="#Getting data from server" aria-hidden="true">
-  <span aria-hidden="true" class="octicon octicon-link"></span></a>nl-server-data :- Getting data from server
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>  Getting data from server (nl-server-data )
    </h4>
      
     <p>
@@ -193,7 +193,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
         &lt;ion-item&gt;
 		    &lt;/ion-list&gt;
         </pre>
-    <p>
+ 
        <ul>
          <li>
            nl-server-data  :  This contains name of the serverside function and it should be  inside the "nl-server-script" tage.
@@ -241,6 +241,63 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
       </pre>
       <p> Execution flow : server() --> db() --> post() -->nl-client-post-data ( client side) </p>
       
+ 
+      <h4>
+ <a id="Executing click event at server " class="anchor" href="#Executing click event at server" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a> Executing click event  in the server side ( nl-server-click )
+   </h4>
+   <p>
+   	The  nl-server-click attribute uses for the firing the click event  at server side.
+   </p>
+   <pre>
+   	<code>
+   		  &lt;button  id="category-edit-save"  nl-server-click ="saveCategory"
+	 nl-redirect="{'url':'category-template', 'cond':'categorySaveResult.Status == 0', 'params':{'AccountKey':'account.AccountKey'}}"  &gt;
+		 save
+		&lt;/button&gt;
+   	</code>
+   </pre>
+   
+   <ul>
+   	<li> nl-server-click - This will fire click event at server serside function "saveCategory"</li>
+   	<li> nl-redirect - (Optional) this will fire after executing server side function to redirect different template.</li>
+   </ul>
+   
+   <pre>
+   	<code>
+   		&lt;nl-server-script&gt;
+{
+  saveCategory:
+  {
+	model:"categorySaveResult",
+	db:
+	{
+		query:"exec [usp_SaveCategory] {{AccountKey}} , {{category.CategoryId}},  'null', {{category.CategoryName}} ,  {{category.Description}} ",
+		resultType:"single"
+	}
+  }
+}
+&lt;/nl-server-script&gt;
+
+   	</code>
+   </pre>
+     <p> Execution flow : server() --> db() --> post() -->nl-client-post-data ( client side) --> nl-redirect</p>
+   
+     <h4>
+ <a id="Executing click event at Database " class="anchor" href="#Executing click event at Database" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a> Executing click event  at Database ( nl-db-click )
+   </h4>
+   <p>
+   	The  nl-db-click is smimilar to the nl-server-click but you can directly specify database query.
+   </p>
+   <pre>
+   	<code>
+   		  &lt;button  id="category-edit-save"  nl-server-click =""exec [usp_SaveCategory] {{AccountKey}} , {{category.CategoryId}},  'null', {{category.CategoryName}} ,  {{category.Description}} "
+	 nl-redirect="{'url':'category-template', 'cond':'categorySaveResult.Status == 0', 'params':{'AccountKey':'account.AccountKey'}}"  &gt;
+		 save
+		&lt;/button&gt;
+   	</code>
+   </pre>  
 <!--
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
