@@ -292,7 +292,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    </p>
    <pre>
    	<code>
-   		  &lt;button  id="category-edit-save"  nl-server-click =""exec [usp_SaveCategory] {{AccountKey}} , {{category.CategoryId}},  'null', {{category.CategoryName}} ,  {{category.Description}} "
+   		  &lt;button  id="category-edit-save"  nl-db-click =""exec [usp_SaveCategory] {{AccountKey}} , {{category.CategoryId}},  'null', {{category.CategoryName}} ,  {{category.Description}} "
 	 nl-redirect="{'url':'category-template', 'cond':'categorySaveResult.Status == 0', 'params':{'AccountKey':'account.AccountKey'}}"  &gt;
 		 save
 		&lt;/button&gt;
