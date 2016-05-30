@@ -298,6 +298,87 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
 		&lt;/button&gt;
    	</code>
    </pre>  
+   
+     <h4>
+ <a id="Redirect Event" class="anchor" href="#Redirect Event" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a> Redirect Event (nl-click-redirect)
+   </h4>
+   
+   <pre>
+   	<code>
+   	<button   nl-click-redirect="{'url':'category-template', 'params':{'AccountKey':'account.AccountKey'}}">Items</button>
+   	</code>
+   </pre>
+   
+       <h4>
+ <a id="Login Process at server" class="anchor" href="#Login Process at server" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Login Process at server (nl-server-login)
+   </h4>
+    <p>
+    	nl-server-login  attribute  is used for the login process. It is similar to the nl-server-click.
+    </p>
+       <h4>
+       	<pre>
+       		<code>
+       		    &lt;button  nl-server-login="validateLogin"
+			 nl-redirect="{'url':'main-template'}"  id="login-submit"&gt;
+  Login
+&lt;/button&gt;	
+       		</code>
+       	</pre>
+       	
+       	<p>
+       		The UserId field should be defined  in cofig/config.json file. if userId value is grater than zero then login is successful and direct to the new template given in nl-redirect attribute.
+
+       	</p>
+       	<pre>
+       		<code>
+       		  &lt;nl-server-script&gt;
+{
+  validateLogin:
+  {
+	server:function($scope)
+	{
+		if(!$scope || !$scope.login || !$scope.login.username || !$scope.login.password )
+		{
+		     $scope.$root._error = {code:"INVALID_USER", message:"Invalid user information."};
+			 return false;
+		}
+		return true;
+		  
+	},
+    db:
+	{
+		query:"procedure=usp_LoginUser;userName=VarChar(255):{{login.username}},password=VarChar(255):{{login.password}} ,applicationName=VarChar:'StoreAdmin',clientIp=VarChar:'',userAgentString=VarChar:'' ",
+		resultType:"single"
+	}
+    post:function($scope){
+        // code for the post longin
+        
+        //return false for the failure
+        return true;
+    }
+  }
+}
+&lt;/nl-server-script&gt;
+</code>
+</pre>
+
+ <a id="Login using Database" class="anchor" href="#Login using Database" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Login using Database (nl-db-login)
+   </h4>
+   
+   <p>
+     nl-db-login is similar to the nl-server-login, but the data basequery can be specify directly without creating serverside functions.	
+   </p>
+   	<pre>
+       		<code>
+       		    &lt;button  nl-db-login="procedure=usp_LoginUser;userName=VarChar(255):{{login.username}},password=VarChar(255):{{login.password}} ,applicationName=VarChar:'StoreAdmin',clientIp=VarChar:'',userAgentString=VarChar:'' "
+			 nl-redirect="{'url':'main-template'}"  id="login-submit"&gt;
+  Login
+&lt;/button&gt;	
+       		</code>
+       	</pre>
 <!--
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
