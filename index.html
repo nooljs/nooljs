@@ -317,7 +317,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    
    <pre>
    	<code>
-   	<button   nl-click-redirect="{'url':'category-template', 'params':{'AccountKey':'account.AccountKey'}}">Items</button>
+   	&lt;button   nl-click-redirect="{'url':'category-template', 'params':{'AccountKey':'account.AccountKey'}}"&gt;Items&lt;/button&lt;
    	</code>
    </pre>
    
@@ -328,7 +328,6 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
     <p>
     	nl-server-login  attribute  is used for the login process. It is similar to the nl-server-click.
     </p>
-       <h4>
        	<pre>
        		<code>
        		    &lt;button  nl-server-login="validateLogin"
@@ -397,18 +396,22 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
        	
   <h4>
  <a id="Permission" class="anchor" href="#Permision" aria-hidden="true">
-  <span aria-hidden="true" class="octicon octicon-link"></span></a>permission (nl-permission)
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Permission (nl-permission)
    </h4>
    
    <p>
-     The nooljs uses permmision based authorization.  All the permission for this application can be load from file or database. The config/config.json defines the connection  to load all the permmsions for this application.  	
+     The nooljs uses permmision based authorization.  nl-permission  attribute contains the name of the permission. It should  be defined start of the template file  with nl-template attribute.
+     If given user does not have permission for given name then  this template won't be loaded into the client.
+     If nl-permission is empty then this template is public template.
    </p>
-   
    <pre>
    	<code>
    	   &lt;nl-template id="main-template" nl-permission="main" nl-parent="top-content"&gt;	
    	</code>
    </pre>
+    <p>
+     All the permissions for this application can be load from file or database. The config/config.json defines the connection  to load all the permissions for this application.  	
+   </p>
    
     <p> Sample config/config.json file</p>
    <pre>
@@ -458,6 +461,17 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    		pemission - Allowed permiisons for the given userKey and userVaqlue. * - allowed all the permmsions.
    	</li>
    </ul>
+   
+    <h4>
+ <a id="Default template" class="anchor" href="#Default template" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Default template (nl-default-template)
+   </h4>
+   <pre>
+   	<code>
+   	   &lt;ion-content id="main-content" nl-default-template="store-template"&gt;	
+   	</code>
+   </pre>
+  
        	
 <!--
 <h3>
