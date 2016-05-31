@@ -130,11 +130,14 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
       </p>
       
         <pre>
-           &lt;ion-list nl-db-data="exec Nodejs_GetUserAccountWithStore {{user.UserId}}"  nl-db-model="accounts" nl-client-post-data="assignDefaultAccount"   nl-websocket ="false" &gt;
+           &lt;ion-list nl-db-data="exec Nodejs_GetUserAccountWithStore {{user.UserId}}"  nl-db-model="accounts" 
+           nl-client-post-data="assignDefaultAccount"   nl-websocket ="false" &gt;
         &lt;ion-item ng-repeat="x	in accounts" menu-close &gt;
-         &lt;span nl-click-redirect="{'url':'store-edit-template' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt; {{x.StoreName}}  
+         &lt;span nl-click-redirect="{'url':'store-edit-template' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt;
+         {{x.StoreName}}  
          &lt;/span&gt;
-		   &lt;button class="button button-clear"  nl-click-redirect="{'url':'store-times' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt;Store time
+		   &lt;button class="button button-clear"  
+		   nl-click-redirect="{'url':'store-times' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt;Store time
 		   &lt;/button&gt;
         &lt;ion-item&gt;
 		    &lt;/ion-list&gt;
@@ -184,11 +187,15 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
       </p>
       
               <pre>
-           &lt;ion-list nl-db-data="validateLogin"  nl-db-model="accounts" nl-client-post-data="assignDefaultAccount"   nl-websocket ="false" &gt;
+           &lt;ion-list nl-db-data="validateLogin"  nl-db-model="accounts" nl-client-post-data="assignDefaultAccount"   
+           nl-websocket ="false" &gt;
         &lt;ion-item ng-repeat="x	in accounts" menu-close &gt;
-         &lt;span nl-click-redirect="{'url':'store-edit-template' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt; {{x.StoreName}}  
+         &lt;span nl-click-redirect="{'url':'store-edit-template' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt;
+         {{x.StoreName}}  
          &lt;/span&gt;
-		   &lt;button class="button button-clear"  nl-click-redirect="{'url':'store-times' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt;Store time
+		   &lt;button class="button button-clear"  
+		   nl-click-redirect="{'url':'store-times' ,  'params':{'AccountKey':'account.AccountKey', 'StoreId':'x.StoreId'}}" &gt;
+		   Store time
 		   &lt;/button&gt;
         &lt;ion-item&gt;
 		    &lt;/ion-list&gt;
@@ -225,7 +232,8 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
 	},
         db:
 	{
-		query:"procedure=usp_LoginUser;userName=VarChar(255):{{login.username}},password=VarChar(255):{{login.password}} ,applicationName=VarChar:'StoreAdmin',clientIp=VarChar:'',userAgentString=VarChar:'' ",
+		query:"procedure=usp_LoginUser;userName=VarChar(255):{{login.username}},password=VarChar(255):{{login.password}} ,
+		applicationName=VarChar:'StoreAdmin',clientIp=VarChar:'',userAgentString=VarChar:'' ",
 		resultType:"single"
 	}
 	post:function($scope)
@@ -272,7 +280,8 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
 	model:"categorySaveResult",
 	db:
 	{
-		query:"exec [usp_SaveCategory] {{AccountKey}} , {{category.CategoryId}},  'null', {{category.CategoryName}} ,  {{category.Description}} ",
+		query:"exec [usp_SaveCategory] {{AccountKey}} , {{category.CategoryId}},  'null', {{category.CategoryName}} ,  
+		{{category.Description}} ",
 		resultType:"single"
 	}
   }
@@ -292,7 +301,9 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    </p>
    <pre>
    	<code>
-   		  &lt;button  id="category-edit-save"  nl-db-click =""exec [usp_SaveCategory] {{AccountKey}} , {{category.CategoryId}},  'null', {{category.CategoryName}} ,  {{category.Description}} "
+   		  &lt;button  id="category-edit-save"  
+   		  nl-db-click =""exec [usp_SaveCategory] {{AccountKey}} , 
+   		  {{category.CategoryId}},  'null', {{category.CategoryName}} ,  {{category.Description}} "
 	 nl-redirect="{'url':'category-template', 'cond':'categorySaveResult.Status == 0', 'params':{'AccountKey':'account.AccountKey'}}"  &gt;
 		 save
 		&lt;/button&gt;
@@ -349,7 +360,8 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
 	},
     db:
 	{
-		query:"procedure=usp_LoginUser;userName=VarChar(255):{{login.username}},password=VarChar(255):{{login.password}} ,applicationName=VarChar:'StoreAdmin',clientIp=VarChar:'',userAgentString=VarChar:'' ",
+		query:"procedure=usp_LoginUser;userName=VarChar(255):{{login.username}},password=VarChar(255):{{login.password}} ,
+		applicationName=VarChar:'StoreAdmin',clientIp=VarChar:'',userAgentString=VarChar:'' ",
 		resultType:"single"
 	}
     post:function($scope){
@@ -364,6 +376,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
 </code>
 </pre>
 
+<h4>
  <a id="Login using Database" class="anchor" href="#Login using Database" aria-hidden="true">
   <span aria-hidden="true" class="octicon octicon-link"></span></a>Login using Database (nl-db-login)
    </h4>
@@ -373,12 +386,79 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    </p>
    	<pre>
        		<code>
-       		    &lt;button  nl-db-login="procedure=usp_LoginUser;userName=VarChar(255):{{login.username}},password=VarChar(255):{{login.password}} ,applicationName=VarChar:'StoreAdmin',clientIp=VarChar:'',userAgentString=VarChar:'' "
+       		    &lt;button  nl-db-login="procedure=usp_LoginUser;userName=VarChar(255):{{login.username}},
+       		    password=VarChar(255):{{login.password}} ,applicationName=VarChar:'StoreAdmin',clientIp=VarChar:'',
+       		    userAgentString=VarChar:'' "
 			 nl-redirect="{'url':'main-template'}"  id="login-submit"&gt;
   Login
 &lt;/button&gt;	
        		</code>
        	</pre>
+       	
+  <h4>
+ <a id="Permission" class="anchor" href="#Permision" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>permission (nl-permission)
+   </h4>
+   
+   <p>
+     The nooljs uses permmision based authorization.  All the permission for this application can be load from file or database. The config/config.json defines the connection  to load all the permmsions for this application.  	
+   </p>
+   
+   <pre>
+   	<code>
+   	   &lt;nl-template id="main-template" nl-permission="main" nl-parent="top-content"&gt;	
+   	</code>
+   </pre>
+   
+    <p> Sample config/config.json file</p>
+   <pre>
+   	<code>
+   	   {	"userid" : "UserId",
+  		"sessionTimeoutMinutes":60,
+  		"logout":"login",
+ 		"defaultConnection": "sqlConn",
+ 		<div style="background:yellow">
+		"permission": {
+	 		"connection":"jsonFile",
+	 		"query" : "config/permision.json",
+	 		"errorMessage": " You do not have permission to view this session."
+			}
+		  </div>
+		}
+   	</code>
+   </pre>
+   
+   <p> Sample permission.json file</p>
+   <pre>
+   	<code>
+   	[ {	"userKey":"RoleName",
+		"userValue" :"Admin",
+		"permission" :"*"
+	},
+   	{ 	"userKey": "RoleName",
+    		"userValue" :"StoreUser",
+		"permission" :["main", "item", "category", "store","store-edit",
+				"item-edit", "category-edit", "store-times" , "store-times-edit"]
+   	},
+    	{ 	"userKey": "RoleName",
+    		"userValue" :"StoreManager",
+		"permission" :["item", "category","store", "item-edit", "category-edit", "store-edit"]
+   	}
+   ]
+   	</code>
+   </pre>
+   <ul>
+   	<li>
+   		userKey - The userkey should be  member name of the user object which returns from nl-db-login or nl-server-login
+   	</li>
+   	<li>
+   		userValue - The userValue should  be member  value for given userKey in the user object which returns from nl-db-login or nl-server-login
+   	</li>
+   	<li>
+   		pemission - Allowed permiisons for the given userKey and userVaqlue. * - allowed all the permmsions.
+   	</li>
+   </ul>
+       	
 <!--
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
