@@ -467,13 +467,50 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
  <a id="Default template" class="anchor" href="#Default template" aria-hidden="true">
   <span aria-hidden="true" class="octicon octicon-link"></span></a>Default template (nl-default-template)
    </h4>
-   
+        
    	<code>
-   	   &lt;ion-content id="main-content" nl-default-template="store-template"&gt;	
+   		<div>
+   	   &lt;ion-content id="main-content" nl-default-template="store-template"&gt;
+   	   </div>
    	</code>
    
   
-       	
+      
+    <h4>
+ <a id="Data Connection" class="anchor" href="#Data Connection" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Data Connection
+   </h4>
+        <p>
+        	The development of  data driven  complex application is  simily fixed using the  nooljs framwork. Nooljs is design to support all kinds of database. 
+        	It is currently support ms-sql, mysql, mongodb, postgresql, and json file. Other data bases will be  supported  verysoon.
+        </p>
+        <p>
+        	All the connection strings are defined in the config/connection.json file. The default connection for the application is defined in the config/config.json file.
+          </p>
+        
+     <h4>
+ <a id="Ms-sql" class="anchor" href="#Ms-sql" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Ms-sql
+   </h4> 
+   
+   <p>
+   	Thanks for  <a href="https://github.com/LeanKit-Labs/seriate">Seriate </a> for creating wonderful  Microsoft SQL Server cross platform node module.
+   </p>
+     <p>Using stored procedure:</p>
+    <pre>
+    	<code>
+    	 " procedure=[usp_SaveStoreTime];StoreId=VarChar(50):{{StoreId}} ,StoreOperationTimeId=VarChar(50):{{StoreTime.StoreOperationTimeId}},IsDate=VarChar(50):{{StoreTime.IsDate}},IsSunday=VarChar(50):{{StoreTime.IsSunday}},IsMonday=VarChar(50):{{StoreTime.IsMonday}},IsTuesday=VarChar(50):{{StoreTime.IsTuesday}},IsWednesday=VarChar(50):{{StoreTime.IsWednesday}},IsThursday=VarChar(50):{{StoreTime.IsThursday}},IsFriday=VarChar(50):{{StoreTime.IsFriday}},IsSaturday=VarChar(50):{{StoreTime.IsSaturday}},Date=VarChar(50):{{StoreTime.Date}},OpeningTime=VarChar(50):{{StoreTime.OpeningTime}},CloseTime=VarChar(50):{{StoreTime.CloseTime}}"
+            	
+    	</code>
+    </pre>
+    
+    <p> Using query string :</p>
+    <pre>
+    	<code>
+    	  "select * from stores where storeid =@StoreId and StoreOperationTimeId=@StoreOperationTimeId;StoreId=VarChar(50):{{StoreId}} ,StoreOperationTimeId=VarChar(50):{{StoreTime.StoreOperationTimeId}}"
+        	
+    	</code>
+    </pre>
 <!--
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
