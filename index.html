@@ -494,7 +494,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    </h4> 
    
    <p>
-   	Thanks for  <a href="https://github.com/LeanKit-Labs/seriate">Seriate </a> for creating wonderful  Microsoft SQL Server cross platform node module.
+   	Thanks to  <a href="https://github.com/LeanKit-Labs/seriate">Seriate </a> for creating wonderful  Microsoft SQL Server cross platform node module.
    </p>
      <p>Using stored procedure:</p>
     <pre>
@@ -511,6 +511,111 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
         	
     	</code>
     </pre>
+    
+      <h4>
+   <a id="Mysql" class="anchor" href="#Mysql" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Mysql
+   </h4> 
+      <p>
+   	Thanks to  <a href="https://www.npmjs.com/package/mysql">mysql </a> for creating wonderful Mysql cross platform node module.
+   </p>
+   <pre>
+   	<code>
+  &lt;nl-template id="mysql-template"  nl-parent="mysql-content"&gt;
+    &lt;h1&gt;my sql data&lt;/h1&gt;
+    &lt;ion-list nl-server-data="getData" &gt;
+        &lt;ion-item class="item" ng-repeat="x	in models"&gt;
+           {{x.rowidx}} - {{x.name}} - {{x.description}}
+      &lt;/ion-item&gt;
+    &lt;/ion-list&gt;
+&lt;/nl-template&gt;
+&lt;nl-server-script&gt;
+    {
+        getData:
+        {
+            model:"models",
+            db:
+            {
+                query:"select rowidx, name, description, isactive  from demo.test where isactive  =?;[0]",
+                connection:"mysqlConnection"
+            }
+        }
+    }
+ &lt;/nl-server-script&gt;
+   	</code>
+   </pre>
+   
+      <h4>
+   <a id="Mongodb" class="anchor" href="#Mongodb" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Mongodb
+   </h4> 
+   
+    <p>
+   	Thanks to  <a href="https://www.npmjs.com/package/mongodb">mongodb </a> for creating wonderful Mongodb cross platform node module.
+   </p>
+   
+   <pre>
+   	<code>
+   		&lt;nl-template id="mongodb-template"  nl-parent="mongodb-content"&gt;
+    &lt;h1>mondodb sql data&lt;/h1&gt;
+    &lt;ion-list nl-server-data="getData" &gt;
+        &lt;ion-item class="item" ng-repeat="x	in models"&gt;
+           {{x.id}} - {{x.name}}
+      &lt;/ion-item&gt;
+    &lt;/ion-list&gt;
+&lt;/nl-template&gt;
+&lt;nl-server-script&gt;
+    {
+        getData:
+        {
+            model:"models",
+            db:
+            {
+                query:"cols=test;fun=find;params={\"active\":1}",
+                connection:"mongodbConnection"
+            }
+        }
+    }
+&lt;/nl-server-script&gt;
+   	</code>
+   </pre>
+   
+      <h4>
+   <a id="Postgresql" class="anchor" href="#Postgresql" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Postgresql
+   </h4> 
+   
+    <p>
+   	Thanks to  <a href="https://www.npmjs.com/package/pg">pg </a> for creating wonderful Postgresql cross platform node module.
+   </p>
+   
+   <pre>
+   	<code>
+  &lt;nl-template id="postgresql-template"  nl-parent="postgresql-content"&gt;
+    &lt;h1>postgre sql data&lt;/h1&gt;
+    &lt;ion-list nl-server-data="getData" &gt;
+        &lt;ion-item class="item" ng-repeat="x	in models"&gt;
+           {{x.id}} - {{x.name}}
+      &lt;/ion-item&gt;
+    &lt;/ion-list&gt;
+&lt;/nl-template&gt;
+&lt;nl-server-script&gt;
+    {
+        getData:
+        {
+            model:"models",
+            db:
+            {
+                query:"select name, active, id from tblname where active  =$1;[0]",
+                connection:"postgresqlConnection"
+            }
+        }
+    }
+&lt;/nl-server-script&gt;
+   	</code>
+   </pre>
+   
+   
 <!--
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
