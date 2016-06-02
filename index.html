@@ -401,7 +401,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    </h4>
    
    <p>
-     The nooljs uses permmision based authorization.  nl-permission  attribute contains the name of the permission. It should  be defined start of the template file  with nl-template attribute.
+     The nooljs uses permission based authorization. The  nl-permission  attribute contains the name of the permission. It should  be defined start of the template file  with nl-template attribute.
      If given user does not have permission for given name then  this template won't be loaded into the client.
      If nl-permission is empty then this template is public template.
    </p>
@@ -467,16 +467,102 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
  <a id="Default template" class="anchor" href="#Default template" aria-hidden="true">
   <span aria-hidden="true" class="octicon octicon-link"></span></a>Default template (nl-default-template)
    </h4>
-        
+        <pre>
    	<code>
-   		<div>
    	   &lt;ion-content id="main-content" nl-default-template="store-template"&gt;
-   	   </div>
    	</code>
+   	</pre>
    
-  
-      
+   <h4>
+ <a id="Express-Socketio" class="anchor" href="#Express-Socketio" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Switching between Express  and Socket-io
+   </h4>
+     <p> The switching between Express  and Socket-io  is really easy using nooljs framwork. Even  you can mix both framworks within application.</p> 
     <h4>
+    	
+    	<p>  client.js( inside public/js/client.js )</p>
+    	<pre>
+    		<code>
+    		var app = angular.module('myApp', ['nooljs', 'ionic']);
+
+		app.run(['nlUtil', function (nlUtil) {
+			nlUtil.useWebsocket(true);
+		}]);
+
+    		</code>
+    	</pre>
+    	
+    	<p> Turn off or turn on  socket-io for the given data/layout  injection</p>
+    	<pre>
+    		<code>
+    	  &lt;ion-list nl-db-data="exec Nodejs_GetUserAccountWithStore {{user.UserId}}"  nl-db-model="accounts" 
+           nl-client-post-data="assignDefaultAccount"  <span style="background:yellow"> nl-websocket ="false" </span> &gt;		
+    		</code>
+    	</pre>
+    	
+    		<h4>
+ <a id="Server Method" class="anchor" href="#Server Method" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a>Server Method
+   </h4>
+   
+   <p> Executing the server method  inside the any client side javascript  function is really easy.</p>
+   
+   <p> index.html</p>
+   <pre>
+   	<code>
+   &lt;body ng-controller="myController"&gt;this is test
+ &lt;div id = "top-content" nl-default-template="login" nl-websocket ="false"&gt; 
+ &lt;/div&gt;
+ &lt;input type="button" ng-click="onclick()" value="call server method" /&gt;
+ &lt;div&gt;{{serverResult}}&lt;/div&gt;
+ &lt;/body&gt;
+   	</code>
+   </pre>
+   
+   <p> client.js ( client side javascript)</p>
+   
+   <pre>
+   	<code>
+   		app.controller("myController",['nlServerMethods', '$scope', function(nlServerMethods, $scope)
+{
+	$scope.serverResult= "my result";
+	$scope.onclick= function(){
+	 <span style="background:yellow">nlServerMethods.exec( "myMethods.myServerMethod1", "First", "parameter") </span>
+		.then(function(data){
+			$scope.serverResult = "data :" + data.data + " , error :"  + data.error;
+		})
+		.catch(function (err)
+		{
+			$scope.serverResult = " error :" + err;
+		});
+	};
+}]);
+   	</code>
+   </pre>
+   
+   <p> Server method should be inside /ServerMethod folder (/ServerMethod/myMethods.js) </p>
+   <pre>
+   	<code>
+   		{
+	myServerMethod1:
+	{
+		"permission":"myServerMethod1", 
+		"method":function( name, value){
+			return "hello - from method 1 " + name + " " + value;
+		}
+	},
+	myServerMethod2:
+	{
+		"permission":"myServerMethod2",
+		"method":function( name){
+			return "hello -- from method 2 " + name ;
+		}
+	}
+}
+   	</code>
+   </pre>
+    	
+    	<h4>
  <a id="Data Connection" class="anchor" href="#Data Connection" aria-hidden="true">
   <span aria-hidden="true" class="octicon octicon-link"></span></a>Data Connection
    </h4>
