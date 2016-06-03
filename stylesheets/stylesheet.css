@@ -244,4 +244,29 @@ a {
   .site-footer {
     font-size: 0.9rem; } }
     
-
+h4 {
+    position: relative;
+    margin-top: 20px;
+  }
+  
+  h4.one {
+    margin-top: 0;
+  }
+  
+  h4.one:before {
+    content: "";
+    display: block;
+    border-top: solid 1px black;
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+  }
+  
+  h4.one span {
+    background: #fff;
+    padding: 0 20px;
+    position: relative;
+    z-index: 5;
+  }
