@@ -29,11 +29,11 @@
 
 <ul>
   <li>Easy to build complex data driven JavaScript applications with minimum coding.</li>
-  <li>Support multiple data connections suck as ms-sql, MySQL, PostgreSQL, and Mondodb.</li>
-   <li>Real time framework build top of Express-js and socket-io</li>
+  <li>Support multiple data connections suck as Ms-sql, MySQL, PostgreSQL, and Mondodb.</li>
+   <li>Real time framework build top of Express-js and Socket-io</li>
   <li>The client side is powered by the Anjularjs. The layout can be build using the Anjularjs tags and elements.</li>
-   <li>Modularized layout to simplify the comlex web pages.</li>
-   <li>Can be mixed both Express-js and socket-io</li>
+   <li>Modularized layout to simplify the complex web pages.</li>
+   <li>Can be mixed both Express-js and Socket-io</li>
 </ul>
 
 </p>
@@ -66,10 +66,10 @@
 
    <pre>node app.js</pre> </li>
 </ol>
- <h3>
+ <h2>
  <a id="Documentation" class="anchor" href="#Documentation" aria-hidden="true">
   <span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation
-   </h3>
+   </h2>
    
    <h4>
  <a id="Folder Structure" class="anchor" href="#Folder Structure" aria-hidden="true">
@@ -104,9 +104,9 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
  <p>
     The layout file contains three parts : 
     <ul> 
-    <li>nl-template - Html template for this module.</li>
-    <li> nl-server-script -  Sever side javascript code for this module</li>
-    <li>nl-client-script - Client side javascript code for this module</li>
+    <li>nl-template - HTML template for this module.</li>
+    <li> nl-server-script -  Sever side JavaScript  code for this module</li>
+    <li>nl-client-script - Client side JavaScript  code for this module</li>
     </ul>
  </p>
  
@@ -127,8 +127,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    </h4>
      
     <p>
-      Getting the data from database/server and injecting into html template  can be easily done without writting code or with minimum code. Nooljs will do all the magic of executing database query , passing the paramter between client and server, getting the result from server, and binding to the html template.
-      It  is designed to support any type of database or file system. 
+     Getting the data from database/server and injecting into HTML template can be easily done without writing code or with minimum code. Nooljs will do all the magic of executing database query, passing the parameter between client and server, getting the result from server, and binding to the HTML template. It is designed to support any type of database or file system.
       </p>
       
         <pre>
@@ -147,13 +146,14 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
     <p>
        <ul>
          <li>
-           nl-db-data  :  This contains the executing data query.  The paramters are getting from anjularjs tag or scope. The connection for the database is defined  in the defult connection at the config section.
-         </li>
+           nl-db-data  :  This contains the executing data query. The parameters are getting from Anjularjs tag or scope. The connection for the database is defined in the default connection at the config section.
+           </li>
          <li>
-           nl-db-model  : The result of the exucting query will be stored into this anjularjs model. The data can access in the client sside using ajularjs scope. 
-         </li>
+           nl-db-model  : The result of the executing query will be stored into this Anjularjs model. The data can access in the client side using Ajularjs scope.
+           </li>
          <li> 
-          nl-client-post-data : The name of the client side of function which will  be executed after result recevied in the client. This is optional attribute.
+          nl-client-post-data : The name of the client side of function which will be executed after result received in the client. This is optional attribute.
+           </li>
          
           <pre>
             <code>
@@ -174,7 +174,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
           </pre>
          </li>
          <li> 
-           nl-websocket  :  This attribute is used to enable or disable websocket for this query. This is optional attribute.  
+           nl-websocket  :  This attribute is used to enable or disable Websocket for this query. This is optional attribute.  
            </li>
        </ul>
     </p>
@@ -185,8 +185,8 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    </h4>
      
     <p>
-      nl-server-data  is simar to the nl-db-data, but it is advanced  and flexable method to injecting the servewr side data  into html template.  
-      </p>
+   nl-server-data is similar to the nl-db-data, but it is advanced and flexible method to injecting the server side data into HTML template.
+   </p>
       
               <pre>
            &lt;ion-list nl-db-data="validateLogin"  nl-db-model="accounts" nl-client-post-data="assignDefaultAccount"   
@@ -205,15 +205,14 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
  
        <ul>
          <li>
-           nl-server-data  :  This contains name of the serverside function and it should be  inside the "nl-server-script" tage.
-           
+           nl-server-data  :  This contains name of the server side function and it should be inside the "nl-server-script" tag.
          </li>
          <li>
-           nl-db-model  : The result of the exucting query will be stored into this anjularjs model. The data can access in the client sside using ajularjs scope. 
-         </li>
+           nl-db-model  :The result of the executing query will be stored into this Anjularjs model. The data can access in the client side using Ajularjs scope.
+           </li>
          <li> 
-          nl-client-post-data : The name of the client side of function which will  be executed after result recevied in the client. This is optional attribute.
-         </li>
+          nl-client-post-data :  The name of the client side of function which will be executed after result received in the client. This is optional attribute.
+          </li>
          </ul>
       
       <pre>
@@ -269,8 +268,8 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    </pre>
    
    <ul>
-   	<li> nl-server-click - This will fire click event at server serside function "saveCategory"</li>
-   	<li> nl-redirect - (Optional) this will fire after executing server side function to redirect different template.</li>
+   	<li> nl-server-click - This will fire click event at server side function "saveCategory"</li>
+   	<li> nl-redirect - (Optional) This will fire after executing server side function. This is used for redirecting to different template.</li>
    </ul>
    
    <pre>
@@ -299,7 +298,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
   <span aria-hidden="true" class="octicon octicon-link"></span></a> Executing click event  at Database ( nl-db-click )
    </h4>
    <p>
-   	The  nl-db-click is smimilar to the nl-server-click but you can directly specify database query.
+   The nl-db-click is similar to the nl-server-click but you can directly specify database query.
    </p>
    <pre>
    	<code>
@@ -328,7 +327,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
   <span aria-hidden="true" class="octicon octicon-link"></span></a>Login Process at server (nl-server-login)
    </h4>
     <p>
-    	nl-server-login  attribute  is used for the login process. It is similar to the nl-server-click.
+    The nl-server-login attribute is used for the login process. It is similar to the nl-server-click.
     </p>
        	<pre>
        		<code>
@@ -383,8 +382,8 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    </h4>
    
    <p>
-     nl-db-login is similar to the nl-server-login, but the data basequery can be specify directly without creating serverside functions.	
-   </p>
+     The nl-db-login is similar to the nl-server-login, but the database query can be specify directly without creating server side functions.
+       </p>
    	<pre>
        		<code>
        		    &lt;button  nl-db-login="procedure=usp_LoginUser;userName=VarChar(255):{{login.username}},
@@ -460,7 +459,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    		userValue - The userValue should  be member  value for given userKey in the user object which returns from nl-db-login or nl-server-login
    	</li>
    	<li>
-   		pemission - Allowed permiisons for the given userKey and userVaqlue. * - allowed all the permmsions.
+   	permission - Allowed permissions for the given userKey and userVaqlue. * - allowed all the permissions.
    	</li>
    </ul>
    
@@ -478,7 +477,8 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
  <a id="Express-Socketio" class="anchor" href="#Express-Socketio" aria-hidden="true">
   <span aria-hidden="true" class="octicon octicon-link"></span></a>Switching between Express  and Socket-io
    </h4>
-     <p> The switching between Express  and Socket-io  is really easy using nooljs framwork. Even  you can mix both framworks within application.</p> 
+     <p> The switching between Express and Socket-io is really easy using nooljs framework. Even you can easily mix both frameworks within application.
+     </p> 
     <h4>
     	
     	<p>  client.js( inside public/js/client.js )</p>
@@ -506,7 +506,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
   <span aria-hidden="true" class="octicon octicon-link"></span></a>Server Method
    </h4>
    
-   <p> Executing the server method  inside the any client side javascript  function is really easy.</p>
+   <p> Executing the server method inside the any client side JavaScript function is really easy.</p>
    
    <p> index.html</p>
    <pre>
@@ -520,7 +520,7 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
    	</code>
    </pre>
    
-   <p> client.js ( client side javascript)</p>
+   <p> client.js ( client side JavaScript)</p>
    
    <pre>
    	<code>
@@ -568,12 +568,10 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
   <span aria-hidden="true" class="octicon octicon-link"></span></a>Data Connection
    </h4>
         <p>
-        	The development of  data driven  complex application is  simily fixed using the  nooljs framwork. Nooljs is design to support all kinds of database. 
-        	It is currently support ms-sql, mysql, mongodb, postgresql, and json file. Other data bases will be  supported  verysoon.
+        The development of complex data driven application can be done easily using the nooljs framework. Nooljs is design to support all kinds of database. It is currently support Ms-sql, Mysql, Mongodb, Postgresql, and Json file. Other data bases will be supported very soon.
         </p>
         <p>
-        	All the connection strings are defined in the config/connection.json file. The default connection for the application is defined in the config/config.json file.
-          </p>
+        All the connection strings are defined in the config/connection.json file. The default connection for the application is defined in the config/config.json file.    </p>
         
      <h4>
  <a id="Ms-sql" class="anchor" href="#Ms-sql" aria-hidden="true">
