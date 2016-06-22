@@ -121,8 +121,8 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
 			for (var i = 0; i < vars.length; i++) {
 				if (i == 0) {
 					var temp = $scope;
-					while (temp[vars[i]] == undefined && temp.parent)
-						temp == temp.$parent;
+					while (temp[vars[i]] == undefined && temp.$parent)
+						temp = temp.$parent;
 					value = temp[vars[i]];
 				} else {
 					if (value)
@@ -141,11 +141,15 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
 			for (var i = 0; (dbAttr.p && i <  dbAttr.p.length); i++) {
 				var scopeName = dbAttr.p[i];
 				//data[scopeName]=nlUtil.getValue($scope, scopeName);
-				value = {
-					name : scopeName,
-					value : this.getValue($scope, scopeName)
-				};
-				data.push(value);
+
+                //don't send _error
+                if (scopeName != "_error") {
+                    value = {
+                        name: scopeName,
+                        value: this.getValue($scope, scopeName)
+                    };
+                    data.push(value);
+                }
 
 			};
 
@@ -217,6 +221,10 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
 
             }
 
+            // Don't pass error object to server
+            if (data && data._error)
+                data._error = undefined;
+             
             var useWebSocket = getWebsocketUsedfromAttrs(attrs);
 			// execute server function and get the data
             if (useWebSocket) {

@@ -1,0 +1,25 @@
+--1. Remove existing package in local
+	npm rm --global nooljs
+-- 2. Go to nooljs folder
+	cd nooljs
+-- 3. Build package
+	npm pack
+--4. go back to main folder
+	cd ..
+-- 5. Install nooljs globally
+	npm install nooljs/nooljs-0.0.5.tgz --global
+-- 6. test  install package
+	nooljs > 
+--7. publish package
+	cd nooljs
+	npm pack
+	npm publish nooljs
+-- 8. Test publish package 
+	>cd ..
+	>npm rm --global nooljs
+	>npm install --global nooljs
+	>nooljs >  enter project name
+	go to new project directory
+	>node app.js
+--9. update github
+

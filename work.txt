@@ -1,0 +1,8 @@
+06-10-2015
+Bug fix - public/js/nooljsClient.j
+Bug Fix - lib/server/noolServer.js
+
+To Do :
+1) User object
+2) optimize getting parameter from client to server/ server to client -- done
+3) Not  save password in client scope.

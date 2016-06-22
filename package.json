@@ -1,6 +1,6 @@
 {
   "name": "nooljs",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Full stack JavaScript framework created top of Nodejs, express, and Socket-io, and Anjularjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,20 +26,20 @@
   ,
   "main": "./lib/index.js",
   "dependencies": {
-    "async": "1.5.0",
-    "body-parser": "1.14.1",
-    "express": "^4.13.3",
+    "async": "^1.5.2",
+    "body-parser": "1.15.2",
+    "express": "^4.14.0",
     "fs-extra": "0.30.0",
-    "mongodb": "2.1.16",
-    "mysql": "2.10.2",
-    "pg": "4.5.4",
-    "q": "1.4.1",
+    "mongodb": "^2.1.21",
+    "mysql": "^2.11.1",
+    "pg": "5.1.0",
+    "q": "^2.0.3",
     "replace": "0.3.0",
     "require-directory": "2.1.1",
     "save": "2.3.0",
-    "seriate": "0.5.3",
+    "seriate": "0.7.1",
     "shelljs": "0.7.0",
-    "socket.io": "1.4.5"
+    "socket.io": "^1.4.6"
   },
   "preferGlobal": true,
   "bin": {
