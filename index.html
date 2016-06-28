@@ -121,6 +121,37 @@ The Layout is heart of the nooljs project.  Each page/module of the application 
     &lt;/nl-template&gt;
      </pre>
      
+     
+           <h4>
+ <a id="Template load event nl-load" class="anchor" href="#Template load event nl-load" aria-hidden="true">
+  <span aria-hidden="true" class="octicon octicon-link"></span></a> Template load event (nl-load)
+   </h4>
+     
+     This nl-load event will be fired after loading the template (nl-template). This is client side event. This will be useful to set any default values to the template after loading the template into the page.
+      <pre>
+    &lt;nl-template id="store-edit-template" nl-load="loadData"  nl-permission="store-edit" nl-parent="main-content" &gt;
+      ... your html code for this template here .....
+    &lt;/nl-template&gt;
+     </pre>
+     
+       <pre>
+            <code>
+              &lt;nl-client-script&gt;
+                {
+                  loadData:function ($scope)
+                  {
+                  console.log(" enter assignDefaultAccount  function ");
+                     if($scope.accounts && $scope.accounts.length > 0)
+                	 {
+                	  console.log(" enter assignDefaultAccount  function  assigen Account "+  $scope.accounts[0]);
+                		$scope.$root.account = $scope.accounts[0];
+                	 }
+                  }
+                  }
+              &lt;/nl-client-script&gt;
+            </code>
+          </pre>
+     
        <h4>
  <a id="Getting data from database" class="anchor" href="#Getting data from database" aria-hidden="true">
   <span aria-hidden="true" class="octicon octicon-link"></span></a> Getting data from database ( nl-db-data )
