@@ -2,7 +2,5 @@
 Bug fix - public/js/nooljsClient.j
 Bug Fix - lib/server/noolServer.js
 
-To Do :
-1) User object
-2) optimize getting parameter from client to server/ server to client -- done
-3) Not  save password in client scope.
+06-27-2016
+Add nl-load client side post event for the nl-template. This event will fire in the  client side after loading the template.

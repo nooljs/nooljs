@@ -1,4 +1,4 @@
-// nooljsclient.js 0.0.1
+// nooljsclient.js 0.0.6
 // Copyright (c) 2016  Chandru Krishnar <chandru0507@gmail.com>
 // MIT
 
@@ -128,7 +128,10 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
 					if (value)
 						value = value[vars[i]];
 				}
-			}
+            }
+            if (value == undefined)
+                value = varName;
+            
 			return value;
 		},
         serverProcess: function ($scope, elem, attrs, httpService, nlStorage, $compile, elemType, preClickType, postClientType, nlSocket) {
@@ -260,7 +263,7 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
         getLayOut: function ($scope, elem, attrs, httpService, $compile, layoutName, params, nlSocket) {
             that = this;
 
-            var layoutCallback = function ($scope, elem, attrs,  $compile, layoutName, params, data) {
+            var layoutCallback = function ($scope, elem, attrs, $compile, layoutName, params, data) {
 
                 var error = data.error;
 
@@ -296,13 +299,22 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
                     newScope.$nlScriptObj = eval(("x=" + scriptdata));
                     data = data.substring(0, spos);
                 }
+
                 //get the parent content
                 console.log("template :" + data);
-                var spos = data.indexOf("nl-parent=");
-                spos = data.indexOf("\"", spos);
-                var epos = data.indexOf("\"", spos + 1);
-                var parentElemName = data.substring(spos + 1, epos);
+
+                var spos = data.indexOf("<nl-template");
+                var epos = data.indexOf(">", spos);
+
+                var nlTemplateAttrs = data.substring(spos + "<nl-template".length, epos);
+
+                var spos = nlTemplateAttrs.indexOf("nl-parent=");
+                spos = nlTemplateAttrs.indexOf("\"", spos);
+                epos = nlTemplateAttrs.indexOf("\"", spos + 1);
+                var parentElemName = nlTemplateAttrs.substring(spos + 1, epos);
                 console.log("parent element name :" + parentElemName);
+
+
 
                 var pelem = angular.element(document.getElementById(parentElemName));
                 // var e =$compile(data)($scope);
@@ -317,8 +329,26 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
                         newScope[name] = that.getValue($scope, params[name]);
                     }
                 }
-
                 $compile(pelem.contents())(newScope);
+
+                // execure the load function for the template
+                // get the nl-load
+                spos = nlTemplateAttrs.indexOf("nl-load=");
+                if (spos > 0) {
+                    // we  have load function for the template
+                    spos = nlTemplateAttrs.indexOf("\"", spos);
+                    epos = nlTemplateAttrs.indexOf("\"", spos + 1);
+                    var loadFunction = nlTemplateAttrs.substring(spos + 1, epos);
+                    console.log("Load function :" + loadFunction);
+
+                    if (newScope.$nlScriptObj[loadFunction]) {
+                        // execute the nl-loada function after loading the template
+                        newScope.$nlScriptObj[loadFunction](newScope);
+                    }
+                    else {
+                        console.log("Error : function " + loadFunction + " for the template " + layoutName + " not available.");
+                    }
+                }
             }
 
             var useWebSocket = getWebsocketUsedfromAttrs(attrs);
