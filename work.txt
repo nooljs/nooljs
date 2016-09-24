@@ -4,3 +4,10 @@ Bug Fix - lib/server/noolServer.js
 
 06-27-2016
 Add nl-load client side post event for the nl-template. This event will fire in the  client side after loading the template.
+
+09-24-2016 V 0.0.7
+Bug fix - public/js/nooljsClient.j
+Bug Fix - lib/db/sqlserver.js
+Bug Fix - lib/server/noolServer.js
+Bug Fix - lib/server/layoutParser.js
+Added new paramter fileMonitorTimeout  paramter, which monitors changes of layout files in runtime,  in the nooljs.init(app, io, fileMonitorTimeout) function.

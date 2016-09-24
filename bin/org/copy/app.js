@@ -2,6 +2,7 @@
 var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
+var fileMonitorTimeout = 15000;
 
 var app = express();
 
@@ -11,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 var io = require('socket.io').listen(app.listen(8080));
 var nooljs = require('nooljs');
-nooljs.init(app, io);
+nooljs.init(app, io, fileMonitorTimeout);
 
 
 // call the initial page

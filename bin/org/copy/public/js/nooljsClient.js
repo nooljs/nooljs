@@ -1,5 +1,5 @@
-// nooljsclient.js 0.0.6
-// Copyright (c) 2016  Chandru Krishnar <chandru0507@gmail.com>
+// nooljsclient.js 0.0.7
+// Copyright (c) 2016  Chandru(Puva) Krishnar <chandru0507@gmail.com>
 // MIT
 
 var nooljs = angular.module('nooljs', []);
@@ -138,23 +138,7 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
 			that = this;
 			console.log(attrs[elemType]);
 			console.log("nlServerClick  Directive attr :" + attrs[elemType]);
-			var data = [];
-
-			var dbAttr = JSON.parse(attrs[elemType]);
-			for (var i = 0; (dbAttr.p && i <  dbAttr.p.length); i++) {
-				var scopeName = dbAttr.p[i];
-				//data[scopeName]=nlUtil.getValue($scope, scopeName);
-
-                //don't send _error
-                if (scopeName != "_error") {
-                    value = {
-                        name: scopeName,
-                        value: this.getValue($scope, scopeName)
-                    };
-                    data.push(value);
-                }
-
-			};
+			
 
 			if (attrs[preClickType]) {
 				//call the client post data function with scope as input
@@ -165,6 +149,24 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
 				if (result == false)
 					return;
             }
+
+            var data = [];
+
+            var dbAttr = JSON.parse(attrs[elemType]);
+            for (var i = 0; (dbAttr.p && i < dbAttr.p.length); i++) {
+                var scopeName = dbAttr.p[i];
+                //data[scopeName]=nlUtil.getValue($scope, scopeName);
+
+                //don't send _error
+                if (scopeName != "_error") {
+                    value = {
+                        name: scopeName,
+                        value: this.getValue($scope, scopeName)
+                    };
+                    data.push(value);
+                }
+
+            };
 
             var postProcessCallback = function (attrs, dbAttr, elemType, data, nlSocket) {
 
