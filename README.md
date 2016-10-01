@@ -3,11 +3,11 @@
 
 ## Introduction
 
-Full stack JavaScript framework  built using  the famous open sources libraries.. Nodejs, Anjularjs, expressjs, npm, socket-io.  
+Full stack JavaScript framework  built using  the famous open sources libraries.. Nodejs, Angularjs, expressjs, npm, socket-io.  
 * Easy to build complex data driven JavaScript applications  with minimum coding.
 * Support multiple  data connections suck as ms-sql, MySQL, PostgreSQL, and Mondodb.
 * Real time framework build top of Express-js and socket-io 
-* The client side is powered by  the Anjularjs. The layout can be built using the Anjularjs tags and elements.
+* The client side is powered by  the Angularjs. The layout can be built using the Angularjs tags and elements.
 * Modularized layout to simplify the comlex web pages.
 * Can be mixed both Express-js and socket-io
 
