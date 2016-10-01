@@ -5,21 +5,21 @@
   "description": "A nooljs application",
   "keywords": [],
   "dependencies": {
-	"async": "^1.5.2",
+	"async": "^2.0.1",
     "body-parser": "1.15.2",
     "express": "^4.14.0",
     "fs-extra": "0.30.0",
-    "mongodb": "^2.1.21",
+    "mongodb": "^2.2.10",
     "mysql": "^2.11.1",
-	"nooljs": "^0.0.7",
-    "pg": "5.1.0",
+	"nooljs": "^0.0.8",
+    "pg": "6.1.0",
     "q": "^2.0.3",
     "replace": "0.3.0",
     "require-directory": "2.1.1",
     "save": "2.3.0",
-    "seriate": "0.7.1",
-    "shelljs": "0.7.0",
-    "socket.io": "^1.4.6"
+    "seriate": "0.8.0",
+    "shelljs": "0.7.4",
+    "socket.io": "^1.4.8"
   },
   "scripts": {
     "debug": "node debug app.js",

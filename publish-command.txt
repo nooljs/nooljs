@@ -7,7 +7,7 @@
 --4. go back to main folder
 	cd ..
 -- 5. Install nooljs globally
-	npm install nooljs/nooljs-0.0.7.tgz --global
+	npm install nooljs/nooljs-0.0.8.tgz --global
 -- 6. test  install package
 	nooljs > 
 --7. publish package

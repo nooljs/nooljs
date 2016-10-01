@@ -11,3 +11,6 @@ Bug Fix - lib/db/sqlserver.js
 Bug Fix - lib/server/noolServer.js
 Bug Fix - lib/server/layoutParser.js
 Added new paramter fileMonitorTimeout  paramter, which monitors changes of layout files in runtime,  in the nooljs.init(app, io, fileMonitorTimeout) function.
+
+10-01-2016 V 0.0.8
+Updated npm latest links
