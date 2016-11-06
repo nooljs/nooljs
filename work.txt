@@ -14,3 +14,8 @@ Added new paramter fileMonitorTimeout  paramter, which monitors changes of layou
 
 10-01-2016 V 0.0.8
 Updated npm latest links
+
+11-05-2016 V 0.0.9
+Updated npm latest links
+Fixed wrong github link
+Added blog and tutorial links

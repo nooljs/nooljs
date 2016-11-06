@@ -30,9 +30,17 @@ Full stack JavaScript framework  built using  the famous open sources libraries.
   5. Run the application
 
    `node app.js`
+   
+## Tutorials & Blogs
+ Tutorials & Blogs are available  at  https://nooljs.blogspot.ca/
+ 
+## Source Code
+ Source codes can be downloaded from https://github.com/nooljs/nooljs
+
 
 ## API Document
  For the full document  please visit http://nooljs.github.io/nooljs/
+ 
 
 ### Folder Structure
     * config -- Configuration folder
@@ -118,15 +126,5 @@ The sample layout is  shown below:
 ```
 
 
- 
 
-### Configuration
 
-### Database Connection
-
-### MS SQL
-### MySql
-### MongoDB
-
-### WebSocket/ Express
-### Permission

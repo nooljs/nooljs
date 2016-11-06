@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <SchemaVersion>2.0</SchemaVersion>
+        <ProjectGuid>{18eaeb2b-fd85-4977-9d90-a96e8ed15ee9}</ProjectGuid>
+        <ProjectHome />
+        <ProjectView>ShowAllFiles</ProjectView>
+        <StartupFile />
+        <WorkingDirectory>.</WorkingDirectory>
+        <OutputPath>.</OutputPath>
+        <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+        <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+        <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+    <ItemGroup>
+        <Content Include="publish-command.txt" />
+        <Content Include="work.txt" />
+        <Content Include="package.json" />
+        <Content Include="README.md" />
+        <Compile Include="bin\nooljsCmd.js" />
+        <Compile Include="lib\index.js" />
+        <Content Include="bin\org\copy\package.json" />
+        <Compile Include="bin\org\copy\app.js" />
+        <Content Include="bin\org\copy\config\config.json" />
+        <Content Include="bin\org\copy\config\connection.json" />
+        <Content Include="bin\org\copy\config\permision.json" />
+        <Content Include="bin\org\copy\layout\category-template.html" />
+        <Content Include="bin\org\copy\layout\index.html" />
+        <Content Include="bin\org\copy\layout\login.html" />
+        <Content Include="bin\org\copy\layout\main-template.html" />
+        <Content Include="bin\org\copy\layout\mongodb-template.html" />
+        <Content Include="bin\org\copy\layout\mysql-template.html" />
+        <Content Include="bin\org\copy\layout\postgresql-template.html" />
+        <Content Include="bin\org\copy\layout\sqlserver-template.html" />
+        <Content Include="bin\org\copy\layout\store-template.html" />
+        <Compile Include="bin\org\copy\serverMethod\myMethods.js" />
+        <Compile Include="bin\org\copy\public\js\angular.min.js" />
+        <Compile Include="bin\org\copy\public\js\client.js" />
+        <Compile Include="bin\org\copy\public\js\nooljsClient.js" />
+        <Compile Include="bin\org\copy\public\js\nooljsClient.min.js" />
+        <Compile Include="lib\db\jsonFile.js" />
+        <Compile Include="lib\db\mongodb.js" />
+        <Compile Include="lib\db\mysql.js" />
+        <Compile Include="lib\db\postgresql.js" />
+        <Compile Include="lib\db\sqlserver.js" />
+        <Content Include="lib\server\errorcodes.txt" />
+        <Compile Include="lib\server\layoutParser.js" />
+        <Compile Include="lib\server\nlUsers.js" />
+        <Compile Include="lib\server\nooljs.js" />
+        <Compile Include="lib\server\noolServer.js" />
+        <Compile Include="lib\server\server.js" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="bin" />
+        <Folder Include="bin\org" />
+        <Folder Include="bin\org\copy" />
+        <Folder Include="bin\org\copy\config" />
+        <Folder Include="bin\org\copy\layout" />
+        <Folder Include="bin\org\copy\public" />
+        <Folder Include="bin\org\copy\public\js" />
+        <Folder Include="bin\org\copy\server" />
+        <Folder Include="bin\org\copy\serverMethod" />
+        <Folder Include="lib" />
+        <Folder Include="lib\db" />
+        <Folder Include="lib\server" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
+    <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+    <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+    <ProjectExtensions>
+        <VisualStudio>
+          <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+            <WebProjectProperties>
+              <UseIIS>False</UseIIS>
+              <AutoAssignPort>True</AutoAssignPort>
+              <DevelopmentServerPort>0</DevelopmentServerPort>
+              <DevelopmentServerVPath>/</DevelopmentServerVPath>
+              <IISUrl>http://localhost:48022/</IISUrl>
+              <NTLMAuthentication>False</NTLMAuthentication>
+              <UseCustomServer>True</UseCustomServer>
+              <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+              <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+            </WebProjectProperties>
+          </FlavorProperties>
+          <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+            <WebProjectProperties>
+              <StartPageUrl>
+              </StartPageUrl>
+              <StartAction>CurrentPage</StartAction>
+              <AspNetDebugging>True</AspNetDebugging>
+              <SilverlightDebugging>False</SilverlightDebugging>
+              <NativeDebugging>False</NativeDebugging>
+              <SQLDebugging>False</SQLDebugging>
+              <ExternalProgram>
+              </ExternalProgram>
+              <StartExternalURL>
+              </StartExternalURL>
+              <StartCmdLineArguments>
+              </StartCmdLineArguments>
+              <StartWorkingDirectory>
+              </StartWorkingDirectory>
+              <EnableENC>False</EnableENC>
+              <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+            </WebProjectProperties>
+          </FlavorProperties>
+        </VisualStudio>
+    </ProjectExtensions>
+</Project>

@@ -5,20 +5,9 @@
   "description": "A nooljs application",
   "keywords": [],
   "dependencies": {
-	"async": "^2.0.1",
     "body-parser": "1.15.2",
     "express": "^4.14.0",
-    "fs-extra": "0.30.0",
-    "mongodb": "^2.2.10",
-    "mysql": "^2.11.1",
-	"nooljs": "^0.0.8",
-    "pg": "6.1.0",
-    "q": "^2.0.3",
-    "replace": "0.3.0",
-    "require-directory": "2.1.1",
-    "save": "2.3.0",
-    "seriate": "0.8.0",
-    "shelljs": "0.7.4",
+	"nooljs": "0.0.9",
     "socket.io": "^1.4.8"
   },
   "scripts": {
