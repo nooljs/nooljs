@@ -19,3 +19,11 @@ Updated npm latest links
 Updated npm latest links
 Fixed wrong github link
 Added blog and tutorial links
+
+11-05-21 V0.1.0
+Improved public/js/nooljsClient.js
+Improved lib/server/noolServer.js
+Improved lib/server/layoutParser.js
+Improved lib/server/noolApi.js
+BugFix  lib/db/jsonFile.js
+BugFix lib/db/postgresql.js

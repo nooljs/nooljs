@@ -1,4 +1,4 @@
-// nooljsclient.js 0.0.7
+// nooljsclient.js 0.1.0
 // Copyright (c) 2016  Chandru(Puva) Krishnar <chandru0507@gmail.com>
 // MIT
 
@@ -55,11 +55,22 @@ nooljs.factory('nlStorage', function () {
 		remove: function (name) {
 			sessionStorage.removeItem(name);
 			localStorage.removeItem(name);
+		},
+		clear: function (type) {
+			var storage = {};
+			if (type == "localStorage" && localStorage)
+				storage = localStorage;
+			else if (type == "sessionStorage" && sessionStorage)
+				storage = sessionStorage;
+			else
+				return; // invalid type  or not supported
+			storage.clear();
 		}
+
 	}
 });
 
-nooljs.factory('nlServerMethods', ['httpService', 'nlUtil', function (httpService, nlUtil) {
+nooljs.factory('nlServerMethods', ['httpService', 'nlUtil',  function (httpService, nlUtil) {
 	return {
 		exec:function()
 		{
@@ -113,7 +124,19 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
         useWebsocket: function (useWebsocketFlag) {
             _useWebsocket = useWebsocketFlag;
         },
-		getValue : function ($scope, varName) {
+		getValue : function ($scope, varName, checkParent = true, checkChildren = false,scopeIds) {
+
+			//if ($scope.__checkChildren == true && checkChildren == false)
+			//	checkChildren = true;
+
+			if (!scopeIds) {
+				scopeIds = [];
+			}
+
+			if (scopeIds.includes($scope.$id))
+				return null; // already searched
+
+			scopeIds.push($scope.$id);
 
 			//parser the varName
 			var vars = varName.split(".");
@@ -121,29 +144,55 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
 			for (var i = 0; i < vars.length; i++) {
 				if (i == 0) {
 					var temp = $scope;
-					while (temp[vars[i]] == undefined && temp.$parent)
+					value = temp[vars[i]];	
+
+					if ((value == undefined || value == null) && $scope._childrenScope) {
+						// we have children scope
+						for (let ii = 0; ii < $scope._childrenScope.length && (value == undefined || value == null); ii++) {
+							value = this.getValue($scope._childrenScope[ii], varName, false, false, scopeIds);
+						}
+					}
+
+					//if (value==null && checkChildren == true) {
+					//	for (var cs = temp.$$childHead; cs && value == null; cs = cs.$$nextSibling) {
+					//		// cs is child scope
+					//		value = this.getValue(cs, varName, false, true); 
+					//	}
+					//}
+					while ((value == undefined || value == null) && temp.$parent && checkParent == true) {
 						temp = temp.$parent;
-					value = temp[vars[i]];
+						value = this.getValue(temp, varName, false, false, scopeIds);
+					}					
 				} else {
 					if (value)
 						value = value[vars[i]];
 				}
             }
             if (value == undefined)
-                value = varName;
+				value = null;
+
+			
             
 			return value;
 		},
-        serverProcess: function ($scope, elem, attrs, httpService, nlStorage, $compile, elemType, preClickType, postClientType, nlSocket) {
+		serverProcess: function ($scope, elem, attrs, httpService, nlStorage, $compile, elemType, preClickType, postClientType, nlSocket) {
+
+			let dbAttr = JSON.parse(attrs[elemType]);
+			let  nlDbModel = (attrs.nlDbModel) ? attrs.nlDbModel : dbAttr.md;
+
+			return this.serverCoreProcess($scope, elem, attrs, httpService, nlStorage, $compile, elemType, attrs[preClickType], attrs[postClientType],
+				dbAttr, nlDbModel,  nlSocket);
+		},
+		serverCoreProcess: function ($scope, elem, attrs, httpService, nlStorage, $compile, elemType, preClientFun, postClientFun, dbAttr, nlDbModel, nlSocket) {
 			that = this;
-			console.log(attrs[elemType]);
-			console.log("nlServerClick  Directive attr :" + attrs[elemType]);
+			//console.log(attrs[elemType]);
+			//console.log("nlServerClick  Directive attr :" + attrs[elemType]);
 			
 
-			if (attrs[preClickType]) {
+			if (preClientFun) {
 				//call the client post data function with scope as input
-				var script = attrs[preClickType] + "($scope)";
-				var result = $scope.$nlScriptObj[attrs[preClickType]]($scope);
+				var script = preClientFun + "($scope)";
+				var result = $scope.$nlScriptObj[preClientFun]($scope);
 
 				// if nlClientPreData return false
 				if (result == false)
@@ -152,7 +201,7 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
 
             var data = [];
 
-            var dbAttr = JSON.parse(attrs[elemType]);
+            //var dbAttr = JSON.parse(attrs[elemType]);
             for (var i = 0; (dbAttr.p && i < dbAttr.p.length); i++) {
                 var scopeName = dbAttr.p[i];
                 //data[scopeName]=nlUtil.getValue($scope, scopeName);
@@ -168,27 +217,40 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
 
             };
 
-            var postProcessCallback = function (attrs, dbAttr, elemType, data, nlSocket) {
+			// if elem type nlDynDbData change as elemDbType since both are doing samething
+			elemType = (elemType == 'nlDynDbData') ? 'nlDbData' : elemType;
+
+			var postProcessCallback = function (attrs, dbAttr, elemType, data, nlSocket) {
 
                 var error = data.error;
 
                 // if this is error then return
                 if (error) {
                     $scope.$root._error = error;
-                    console.log(" elemType : %s, error  code:%s, error Message: %s", elemType, error.code, error.message);
+                 //   console.log(" elemType : %s, error  code:%s, error Message: %s", elemType, error.code, error.message);
                     return;
                 }
                 else {
                     $scope.$root._error = {};
                 }
-                data = data.data;
+                data = data.data;               
 
-                var nlDbModel = (attrs.nlDbModel) ? attrs.nlDbModel : dbAttr.md;
+				if (nlDbModel) {
+					// hangle index model
+					if (nlDbModel.indexOf("[") > 0) {
+						let indexStr = nlDbModel.substring(nlDbModel.indexOf("[") + 1, nlDbModel.indexOf("]"));
+						let mainModel = nlDbModel.substring(0, nlDbModel.indexOf("["));
 
-                if (nlDbModel)
-                    $scope[nlDbModel] = (dbAttr.md) ? data[dbAttr.md] : data; //[attrs.nlServerData];
+						if (!$scope[mainModel])
+							$scope[mainModel] = {};
+						$scope[mainModel][indexStr] = (dbAttr.md) ? data[dbAttr.md] : data;
+					}
+					else {
+						$scope[nlDbModel] = (dbAttr.md) ? data[dbAttr.md] : data; //[attrs.nlServerData];
+					}
+				}
 
-                console.log(" post data:" + data);
+               // console.log(" post data:" + data);
 
                 if (elemType == "nlDbLogin" || elemType == "nlServerLogin") {
                     //check whether this has session key
@@ -198,32 +260,36 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
                     }
                 }
                 if (elemType == "nlServerLogout") {
-                    nlStorage.remove("_userKey_");
-                    that.getLayOut($scope, elem, attrs, httpService, $compile, data.url, "", nlSocket);
+					nlStorage.remove("_userKey_");
+					nlStorage.clear("sessionStorage");
+					var targetId = (attrs) ? attrs.targetId : null;
+					that.getLayOut($scope, elem, attrs, httpService, $compile, data.url, "", nlSocket, targetId);
                     return;
                 }
 
                 //check whether there is any post data function
-                if (attrs[postClientType]) {
+				if (postClientFun) {
                     //call the client post data function with scope as input
-                    var script = attrs[postClientType] + "($scope)";
+					var script = postClientFun + "($scope)";
                     //eval($scope.scriptData);
                     //eval(script);
-                    $scope.$nlScriptObj[attrs[postClientType]]($scope);
+					$scope.$nlScriptObj[postClientFun]($scope);
                     //$scope.$eval(script);
                 }
                 if (attrs.nlRedirect) {
                     var redirect = JSON.parse(attrs.nlRedirect.replace(/'/g, "\""));
 
-                    console.log("successfully processed  next template :" + redirect.url);
+                   // console.log("successfully processed  next template :" + redirect.url);
 
                     if (((elemType == "nlDbLogin" && data._userKey_) || elemType != "nlDbLogin") && ((!redirect.cond) || $scope.$eval(redirect.cond))) {
-                        console.log("successfully   satisfied condition for next template :" + redirect.url);
+						//console.log("successfully   satisfied condition for next template :" + redirect.url);
 
-                        that.getLayOut($scope, elem, attrs, httpService, $compile, redirect.url, redirect.params, nlSocket);
+						//Chandru K - 2017-11-15close all the open modals this is temp fix.. later we need to identify which modal to be close and open
+						$(".modal").modal('hide');
+						var targetId = (attrs) ? attrs.targetId : null;
+						that.getLayOut($scope, elem, attrs, httpService, $compile, redirect.url, redirect.params, nlSocket, targetId);
                     }
-                }
-
+				}
             }
 
             // Don't pass error object to server
@@ -257,15 +323,15 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
 			} else {
                 httpService.postData(dbAttr.t, elemType, dbAttr.m, data).then(function (data) {
 
-                    postProcessCallback(attrs, dbAttr, elemType, data, nlSocket);
+					postProcessCallback(attrs, dbAttr, elemType, data, nlSocket);
                 });
 			}
 
 		},
-        getLayOut: function ($scope, elem, attrs, httpService, $compile, layoutName, params, nlSocket) {
+		getLayOut: function ($scope, elem, attrs, httpService, $compile, layoutName, params, nlSocket, targetId) {
             that = this;
 
-            var layoutCallback = function ($scope, elem, attrs, $compile, layoutName, params, data) {
+			var layoutCallback = function ($scope, elem, attrs, $compile, layoutName, params, data) {
 
                 var error = data.error;
 
@@ -278,7 +344,7 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
                     $scope.$root._error = {};
                 }
                 data = data.layout;
-                console.log(' layout loaded %s', data);
+              //  console.log(' layout loaded %s', data);
                 //get data from  any nl-client-script tags
                 var spos = data.indexOf("<nl-client-script");
                 var epos = data.indexOf("</nl-client-script");
@@ -291,7 +357,7 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
                     var sspos = data.indexOf(">", spos);
                     //we have client script
                     var scriptdata = data.substring(sspos + 1, epos);
-                    console.log("script data :" + scriptdata);
+                   // console.log("script data :" + scriptdata);
                     //$scope.$eval(scriptdata);
                     if (newScope.scriptData)
                         newScope.$nlScriptData += ' ' + scriptdata;
@@ -299,24 +365,44 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
                         newScope.$nlScriptData = scriptdata;
 
                     newScope.$nlScriptObj = eval(("x=" + scriptdata));
+                  //  newScope.$nlScriptObj.$scope = newScope;
                     data = data.substring(0, spos);
                 }
 
                 //get the parent content
-                console.log("template :" + data);
+               // console.log("template :" + data);
 
                 var spos = data.indexOf("<nl-template");
                 var epos = data.indexOf(">", spos);
 
-                var nlTemplateAttrs = data.substring(spos + "<nl-template".length, epos);
+				var nlTemplateAttrs = data.substring(spos + "<nl-template".length, epos);
 
-                var spos = nlTemplateAttrs.indexOf("nl-parent=");
-                spos = nlTemplateAttrs.indexOf("\"", spos);
-                epos = nlTemplateAttrs.indexOf("\"", spos + 1);
-                var parentElemName = nlTemplateAttrs.substring(spos + 1, epos);
-                console.log("parent element name :" + parentElemName);
+				var parentElemName = targetId;
+				if (!targetId) {
 
+					var spos = nlTemplateAttrs.indexOf("nl-parent=");
+					spos = nlTemplateAttrs.indexOf("\"", spos);
+					epos = nlTemplateAttrs.indexOf("\"", spos + 1);
+					parentElemName = nlTemplateAttrs.substring(spos + 1, epos);
+				//	console.log("parent element name :" + parentElemName);
+				}
 
+				//$cookieStore.put('layout_' + parentElemName.trim(), layoutName);
+				nlStorage.set("sessionStorage", "layout_" + parentElemName.trim(), layoutName);
+
+				//parser dynamic ng-model
+				var spos = 0;
+				spos =data.indexOf('ng-model="{{', spos);
+
+				while ( spos > 0) {
+					var endpos = data.indexOf('}}', spos);
+					var dyModel = data.substring(spos + 12, endpos);
+					//get the value
+					var realModel = that.getValue($scope, dyModel);
+					data = data.substring(0, spos + 10) + realModel + data.substring(endpos+2) ;
+					//console.log("dymodel: " + dyModel + " , realModel:" + realModel);
+					spos = data.indexOf('ng-model="{{', spos);
+				}
 
                 var pelem = angular.element(document.getElementById(parentElemName));
                 // var e =$compile(data)($scope);
@@ -328,11 +414,10 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
                     //for(var name in $scope,params)
                     for (var name in params) {
                         //newScope[name] =params[name];
-                        newScope[name] = that.getValue($scope, params[name]);
+						let value = that.getValue($scope, name); 
+						newScope[name] = (value == null && value == undefined) ? params[name] : value  ;
                     }
                 }
-                $compile(pelem.contents())(newScope);
-
                 // execure the load function for the template
                 // get the nl-load
                 spos = nlTemplateAttrs.indexOf("nl-load=");
@@ -341,7 +426,7 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
                     spos = nlTemplateAttrs.indexOf("\"", spos);
                     epos = nlTemplateAttrs.indexOf("\"", spos + 1);
                     var loadFunction = nlTemplateAttrs.substring(spos + 1, epos);
-                    console.log("Load function :" + loadFunction);
+                   // console.log("Load function :" + loadFunction);
 
                     if (newScope.$nlScriptObj[loadFunction]) {
                         // execute the nl-loada function after loading the template
@@ -351,6 +436,8 @@ nooljs.factory('nlUtil', function ($http, nlStorage) {
                         console.log("Error : function " + loadFunction + " for the template " + layoutName + " not available.");
                     }
                 }
+                $compile(pelem.contents())(newScope);
+
             }
 
             var useWebSocket = getWebsocketUsedfromAttrs(attrs);
@@ -487,35 +574,64 @@ nooljs.factory('httpService', function ($http, nlStorage) {
 	};
 });
 
-nooljs.directive('nlDefaultTemplate', ['httpService', 'nlUtil', '$compile', 'nlSocket', function (httpService, nlUtil, $compile, nlSocket) {
+nooljs.directive('nlDefaultTemplate', ['httpService', 'nlUtil', '$compile', 'nlSocket', 'nlStorage', function (httpService, nlUtil, $compile, nlSocket, nlStorage) {
 			console.log("nlDefaultTemplate Directive was run");
 			return {
 				restrict : 'A',
 				link : function ($scope, elem, attrs) {
 					function init() {
-                        nlUtil.getLayOut($scope, elem, attrs, httpService, $compile, attrs.nlDefaultTemplate, null, nlSocket);
+
+						//var layout = $cookieStore.get('layout_' + attrs.id);
+						var layout = nlStorage.get('layout_' + attrs.id);
+
+						if ((!layout) || layout.length == 0)
+							layout = attrs.nlDefaultTemplate;
+
+						nlUtil.getLayOut($scope, elem, attrs, httpService, $compile, layout, null, nlSocket, attrs.id);
 					};
-					init();
+                    init();
+                   // console.log("nlDefaultTemplate  was called , scope id :%d, , element:%s, attr:%s", $scope.$id, elem, attrs);
 				}
 			};
 		}
 	]);
 
-nooljs.directive('nlTemplate', ['$compile', function ($compile) {
-			console.log("nlTemplate Directive was run");
+nooljs.directive('nlTemplate', ['$compile', 'nlSocket', function ($compile, nlSocket) {
+			//console.log("nlTemplate Directive was run");
 			return {
 				restrict : 'E',
 				scope : true,
 				require : ['^?nlDbLogin', 'nlTemplate'],
 				controller : function ($scope) {
-					console.log("nlTemplate controller was called");
+                    console.log("nlTemplate controller was called");
+
+                    nlSocket.on('alert', function (data) {
+                        console.log("alert from server ..." + data);      /* I expect this to be the data I want */
+                    });
 				},
 				link : function ($scope, elem, attrs, ctrl) {
-					console.log("nlTemplate Link was called");
+                  //  console.log("nlTemplate Link was called");
+                   // console.log("nlTemplate  was called , scope id :%d, parentid:%d, element:%s, attr:%s", $scope.$id, $scope.$parent.$id, elem, attrs);
 				}
 			};
 		}
-	]);
+]);
+
+nooljs.directive('nlDialog', ['$compile', function ($compile) {
+	console.log("nlDialog Directive was run");
+	return {
+		restrict: 'A',
+		scope: true,
+		controller: function ($scope) {
+			//console.log("nlDialog controller was called");
+		},
+		link: function ($scope, elem, attrs, ctrl) {
+			$("body").append(elem);
+		}
+	};
+}
+]);
+
 
 nooljs.directive('nlDbData', ['httpService', 'nlUtil', 'nlStorage', '$compile','nlSocket', function (httpService, nlUtil, nlStorage, $compile, nlSocket) {
 			console.log("nlDbData Directive was run");
@@ -523,20 +639,40 @@ nooljs.directive('nlDbData', ['httpService', 'nlUtil', 'nlStorage', '$compile','
 				restrict : 'A',
 				link : function ($scope, elem, attrs) {
 					function int() {
-						console.log(attrs.nlDbData);
-						console.log("nlDbData  Directive attr :" + attrs.nlDbData);
+						//console.log(attrs.nlDbData);
+					//	console.log("nlDbData  Directive attr :" + attrs.nlDbData);
                         nlUtil.serverProcess($scope, elem, attrs, httpService, nlStorage, $compile, 'nlDbData', 'nlClientPreData', 'nlClientPostData', nlSocket);
 					};
 
 					int();
-					console.log("Link was called");
+                   // console.log("Link was called");
+                   // console.log("nlDbData  was called , scope id :%d, parentid:%d, element:%s, attr:%s", $scope.$id, $scope.$parent.$id, elem, attrs);
 				}
 			};
 		}
-	]);
+]);
+
+nooljs.directive('nlDynDbData', ['httpService', 'nlUtil', 'nlStorage', '$compile', 'nlSocket', function (httpService, nlUtil, nlStorage, $compile, nlSocket) {
+	console.log("nlDynDbData Directive was run");
+	return {
+		restrict: 'A',
+		link: function ($scope, elem, attrs) {
+			function int() {
+				//console.log(attrs.nlDbData);
+				//console.log("nlDynDbData  Directive attr :" + attrs.nlDynDbData);
+				nlUtil.serverProcess($scope, elem, attrs, httpService, nlStorage, $compile, 'nlDynDbData', 'nlClientPreData', 'nlClientPostData', nlSocket);
+			};
+
+			int();
+			//console.log("Link was called");
+			//console.log("nlDynDbData  was called , scope id :%d, parentid:%d, element:%s, attr:%s", $scope.$id, $scope.$parent.$id, elem, attrs);
+		}
+	};
+}
+]);
 
 nooljs.directive('nlServerData', ['httpService', 'nlUtil', 'nlStorage', '$compile','nlSocket', function (httpService, nlUtil, nlStorage, $compile, nlSocket) {
-			console.log("nlServerData Directive was run");
+			//console.log("nlServerData Directive was run");
 			return {
 				restrict : 'A',
 				link : function ($scope, elem, attrs) {
@@ -545,7 +681,8 @@ nooljs.directive('nlServerData', ['httpService', 'nlUtil', 'nlStorage', '$compil
 					};
 
 					int();
-					console.log("Link was called");
+                  //  console.log("Link was called");
+                  //  console.log("nlServerData  was called , scope id :%d, parentid:%d, element:%s, attr:%s", $scope.$id, $scope.$parent.$id, elem, attrs);
 				}
 			};
 		}
@@ -555,7 +692,6 @@ nooljs.directive('nlServerClick', ['httpService', 'nlUtil', 'nlStorage', '$compi
 			console.log("nlServerClick Directive was run");
 			return {
 				restrict : 'A',
-
 				link : function ($scope, elem, attrs) {
 					function int() {
 						$scope.clickingCallback = function () {
@@ -565,14 +701,66 @@ nooljs.directive('nlServerClick', ['httpService', 'nlUtil', 'nlStorage', '$compi
 					};
 
 					int();
-					console.log("Link was called");
+                   // console.log("Link was called");
+                   // console.log("nlServerClick  was called , scope id :%d, parentid:%d, element:%s, attr:%s", $scope.$id, $scope.$parent.$id, elem, attrs);
 				}
 			};
 		}
-	]);
+]);
 
-nooljs.directive('nlDbClick', ['httpService', 'nlStorage', 'nlUtil', 'nlStorage', '$compile','nlSocket', function (httpService, nlStorage, nlUtil, nlStorage, $compile, nlSocket) {
-			console.log("nlClick Directive was run");
+nooljs.directive('nlReportServerChange', ['httpService', 'nlUtil', 'nlStorage', '$compile', 'nlSocket', function (httpService, nlUtil, nlStorage, $compile, nlSocket) {
+	console.log("nlServerClick Directive was run");
+	return {
+		restrict: 'A',
+		controller: function ($scope, $element) {
+			$scope.changeEvent= function(){
+				$scope.changeCallback();
+			}
+		},
+		link: function ($scope, elem, attrs) {
+			function int() {
+				$scope.changeCallback = function () {
+					// get  all the  db-queries for this report
+					let model = attrs["nlModel"] ? attrs["nlModel"] : attrs["ngModel"];
+					let queries = $scope._filters[model]; //filterName:filterName, attrName:attrName, obj:obj, model:model
+					//execute any pre client function
+					let preClientFun = attrs["nlReportServerChange"];
+
+					if (preClientFun) {
+						//call the client post data function with scope as input
+						var result = $scope.$nlScriptObj[preClientFun]($scope);
+
+						// if nlClientPreData return false
+						if (result == false)
+							return;
+					}
+
+					for (let i = 0; i < queries.length; i++) {
+						//if (i > 0)
+						//	preClientFun = null; // exceute the function only once
+
+						let postClientFun = queries[i].postClientFun;
+
+						let elmType = queries[i].attrName;
+						let dbAttr = queries[i].obj;
+						let nlDbModel = queries[i].model ? queries[i].model : dbAttr.md;
+						let elScope = queries[i].elScope ? queries[i].elScope : $scope;
+						nlUtil.serverCoreProcess(elScope, elem, attrs, httpService, nlStorage, $compile, elmType, null, postClientFun, dbAttr, nlDbModel, nlSocket);
+					}
+				};
+				elem.bind('change', $scope.changeCallback);
+			};
+
+			int();
+			// console.log("Link was called");
+			// console.log("nlServerClick  was called , scope id :%d, parentid:%d, element:%s, attr:%s", $scope.$id, $scope.$parent.$id, elem, attrs);
+		}
+	};
+}
+]);
+
+nooljs.directive('nlDbClick', ['httpService', 'nlStorage', 'nlUtil', 'nlStorage', '$compile','nlSocket', function (httpService, nlStorage, nlUtil, $compile, nlSocket) {
+			//console.log("nlClick Directive was run");
 			return {
 				restrict : 'A',
 				require : "^nlTemplate",
@@ -586,14 +774,15 @@ nooljs.directive('nlDbClick', ['httpService', 'nlStorage', 'nlUtil', 'nlStorage'
 					};
 
 					int();
-					console.log("nlClick  was called");
+                  //  console.log("nlClick  was called");
+                  //  console.log("nlDbClick  was called , scope id :%d, parentid:%d, element:%s, attr:%s", $scope.$id, $scope.$parent.$id, elem, attrs);
 				}
 			};
 		}
 	]);
 
 nooljs.directive('nlClickRedirect', ['httpService', 'nlUtil', 'nlStorage', '$compile', 'nlSocket', function (httpService, nlUtil, nlStorage, $compile, nlSocket) {
-			console.log("nlClick Directive was run");
+			//console.log("nlClick Directive was run");
 			return {
 				restrict : 'A',
 				require : "^nlTemplate",
@@ -603,20 +792,20 @@ nooljs.directive('nlClickRedirect', ['httpService', 'nlUtil', 'nlStorage', '$com
 							//read redirect url and convert into json object
 							var url = JSON.parse(attrs.nlClickRedirect.replace(/'/g, "\""));
 
-                            nlUtil.getLayOut($scope, elem, attrs, httpService, $compile, url.url, url.params, nlSocket );
+                            nlUtil.getLayOut($scope, elem, attrs, httpService, $compile, url.url, url.params, nlSocket, url.targetId );
 						};
 						elem.bind('click', $scope.clickingCallback);
 					};
 
 					int();
-					console.log("nlClick  was called");
+                  //  console.log("nlClick  was called, scope id :%d, parentid:%d, element:%s, attr:%s", $scope.$id, $scope.$parent.$id, elem, attrs);
 				}
 			};
 		}
 	]);
 
 nooljs.directive('nlDbLogin', ['httpService', 'nlStorage', 'nlUtil', '$compile','nlSocket', function (httpService, nlStorage, nlUtil, $compile, nlSocket) {
-			console.log("nlDbLogin Directive was run");
+			//console.log("nlDbLogin Directive was run");
 			return {
 				restrict : 'A',
 				require : "^nlTemplate",
@@ -629,14 +818,14 @@ nooljs.directive('nlDbLogin', ['httpService', 'nlStorage', 'nlUtil', '$compile',
 						};
 
 						int();
-						console.log("Link was called");
+                       // console.log("nlDbLogin Link was called, scope id :$d, parentid:$d, element:$s, attr:%s", $scope.$id, $scope.$parent.$id, elem, attrs);
 					}
 				}
 			};
 		}
 	]);
 nooljs.directive('nlServerLogin', ['httpService', 'nlStorage', 'nlUtil', '$compile','nlSocket', function (httpService, nlStorage, nlUtil, $compile, nlSocket) {
-			console.log("nlServerLogin Directive was run");
+			//console.log("nlServerLogin Directive was run");
 			return {
 				restrict : 'A',
 				require : "^nlTemplate",
@@ -649,14 +838,14 @@ nooljs.directive('nlServerLogin', ['httpService', 'nlStorage', 'nlUtil', '$compi
 						};
 
 						int();
-						console.log("Link was called");
+                    //    console.log("nlServerLogin Link was called, scope id :%d, parentid:%d, element:%s, attr:%s", $scope.$id, $scope.$parent.$id, elem, attrs);
 					}
 				}
 			};
 		}
 	]);
 nooljs.directive('nlServerLogout', ['httpService', 'nlStorage', 'nlUtil', '$compile', 'nlSocket', function (httpService, nlStorage, nlUtil, $compile, nlSocket) {
-			console.log("nlServerLogout Directive was run");
+			//console.log("nlServerLogout Directive was run");
 			return {
 				restrict : 'A',
 				require : "^nlTemplate",
@@ -669,7 +858,7 @@ nooljs.directive('nlServerLogout', ['httpService', 'nlStorage', 'nlUtil', '$comp
 						};
 
 						int();
-						console.log("Link was called");
+                       // console.log("nlServerLogout Link was called, scope id :%d, parentid:%d, element:%s, attr:%s", $scope.$id, $scope.$parent.$id, elem, attrs);
 					}
 				}
 			};

@@ -1,0 +1,51 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "node/node.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "async/async.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "express/express.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "serve-static/serve-static.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "fs-extra/fs-extra.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "mysql/mysql.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "pg/pg.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "q/Q.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "shelljs/shelljs.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "socket.io/socket.io.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "body-parser/body-parser.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "express-serve-static-core/express-serve-static-core.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "mime/mime.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    },
+    "mongodb/mongodb.d.ts": {
+      "commit": "3f67905cbef90e9c86cce72e24e4cdaf165fcc0e"
+    }
+  }
+}

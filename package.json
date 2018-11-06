@@ -1,6 +1,6 @@
 {
   "name": "nooljs",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Full stack JavaScript framework created top of Nodejs, express, and Socket-io, and Angularjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
